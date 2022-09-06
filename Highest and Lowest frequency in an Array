@@ -1,0 +1,38 @@
+import java.util.*;
+
+class Main
+{
+    public static void count_frequency(int a[], int n)
+    {
+        Map<Integer, Integer> mp = new HashMap<>();
+        int max_count = 0, min_count = n;
+        
+        for(int i=0; i<n; i++)
+        {
+            if (mp.containsKey(a[i]))
+            {
+                mp.put(a[i], mp.get(a[i])+1);
+            }
+            else
+            {
+                mp.put(a[i], 1);
+            }
+        }
+        
+        for(Map.Entry<Integer, Integer> entry : mp.entrySet())
+        {
+            max_count = Math.max(max_count, entry.getValue());
+            min_count = Math.min(min_count, entry.getValue());
+        }
+        
+        System.out.println(max_count);
+        System.out.println(min_count);
+    }
+    
+    public static void main(String args[])
+    {
+        int arr[] = {10, 20, 20, 10, 10, 20, 5, 20};
+        int n = arr.length;
+        count_frequency(arr, n);
+    }
+}
