@@ -1,0 +1,49 @@
+class Solution {
+    public static int[] reverse(int a[], int s, int e)
+    {
+        int m = (e - s)/2;
+        int c = 0;
+        
+        for(int i=s; i<s+m; i++)
+        {
+            c = a[i];
+            a[i] = a[e+s-i-1];
+            a[e+s-i-1] = c;
+        }
+        
+        return a;
+    }
+    
+    public void rotate(int[] nums, int k) {
+        int n = nums.length;
+        int k_n = k;
+        if(n<k)
+        {
+            while(k_n>n)
+            {
+                k_n = k%n;
+            }
+            nums = reverse(nums, 0, n);
+            nums = reverse(nums, 0, k_n);
+            nums = reverse(nums, k_n, n);
+            
+            for(int j=0; j<n; j++)
+            {
+                System.out.print(nums[j]);
+            }
+        }
+        else
+        {
+            nums = reverse(nums, 0, n);
+            nums = reverse(nums, 0, k);
+            nums = reverse(nums, k, n);
+        
+            for(int j=0; j<n; j++)
+            {
+                System.out.print(nums[j]);
+            }
+        }
+        
+        
+    }
+}
