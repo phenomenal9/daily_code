@@ -1,0 +1,33 @@
+public class Main
+{
+	public static void main(String[] args) {
+		int arr[] = {64, 25, 12, 22, 11};
+		sort(arr);
+	}
+	
+	public static void sort(int a[])
+	{
+	    int n = a.length;
+	    int i = 0, temp = 0;
+	    int min_idx;
+	    
+	    for (i=0; i<n; i++)
+	    {
+	        min_idx = i;
+	        
+	        for(int j=i+1; j<n; j++)
+	        {
+	            if(a[min_idx] > a[j])
+	                min_idx = j;
+	        }
+	        
+	        temp = a[min_idx];
+	        a[min_idx] = a[i];
+	        a[i] = temp;
+	    }
+	    
+	    for (int k=0; k<n; k++)
+	        System.out.print(a[k]+" ");
+	    
+	}
+}
