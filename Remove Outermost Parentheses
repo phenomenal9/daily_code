@@ -1,0 +1,24 @@
+class Solution {
+    public String removeOuterParentheses(String s) 
+    {
+        StringBuilder str = new StringBuilder();
+        int sum = 0;
+        
+        for(int i=0;i<s.length();i++)
+        {
+            if(s.charAt(i) == '(')
+            {
+                sum += 1;
+                if(sum>1)
+                    str.append(s.charAt(i));
+            }
+            else
+            {
+                sum = sum-1;
+                if(sum>0)
+                    str.append(s.charAt(i));
+            }
+        }
+        return str.toString();
+    }
+}
