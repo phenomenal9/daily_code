@@ -1,0 +1,82 @@
+import java.util.*;
+public class LinkedList
+{
+    Node head;
+    class Node
+    {
+        int data;
+        Node next;
+        
+        Node(int d)
+        {
+            data = d;
+            next = null;
+        }
+    }
+    
+    public void push(int new_data)
+    {
+        Node new_node = new Node(new_data);
+        
+        
+        new_node.next = head;
+        head = new_node;
+        
+    }
+    
+    public void insertAfter(Node prev_node, int new_data)
+    {
+        if(prev_node == null)
+        {
+            System.out.println("The previous node cannot be null");
+            return;
+        }
+        
+        Node new_node = new Node(new_data);
+        new_node.next = prev_node.next;
+        prev_node.next = new_node;
+    
+    }
+    
+    public void append(int new_data)
+    {
+        Node new_node = new Node(new_data);
+        if(head==null)
+        {
+            head = new_node;
+            return;
+        }
+        
+        new_node.next = null;
+        Node current = head;
+        
+        while(current.next != null)
+        {
+            current = current.next;
+        }
+        current.next = new_node;
+        
+        return;
+    }
+    
+    public void printList()
+    {
+        Node current = head;
+        while(current != null)
+        {
+            System.out.println(current.data+ " ");
+            current = current.next;
+        }
+    }
+    
+	public static void main(String[] args) 
+	{
+		LinkedList m = new LinkedList();
+		
+		m.push(6);
+		m.append(5);
+		m.insertAfter(m.head.next, 4);
+		m.printList();
+		
+	}
+}
