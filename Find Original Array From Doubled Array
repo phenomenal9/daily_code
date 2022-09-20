@@ -1,0 +1,30 @@
+class Solution {
+    public int[] findOriginalArray(int[] changed) 
+    {
+        Arrays.sort(changed);
+        int[] arr1 = {};
+        if(changed.length%2 == 1)
+        {
+            return arr1;
+        }
+        
+        ArrayList<Integer> al = new ArrayList<>();
+        Queue<Integer> q = new java.util.LinkedList();
+        
+        for(int num:changed)
+        {
+            if(!q.isEmpty() && num == q.peek())
+            {
+                q.poll();
+            }
+            else
+            {
+                q.offer(num*2);
+                al.add(num);
+            }
+        }
+        
+        
+        return !q.isEmpty() ? new int[] {} :  al.stream().mapToInt(i -> i).toArray();
+    }
+}
