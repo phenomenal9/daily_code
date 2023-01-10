@@ -1,0 +1,28 @@
+import java.util.Map.Entry;
+class Solution {
+    public boolean canConstruct(String ransomNote, String magazine) 
+    {
+        char[] m = magazine.toCharArray();
+        char[] r = ransomNote.toCharArray();
+        Arrays.sort(m);
+        Arrays.sort(r);
+        
+        int i = 0;
+        int j = 0;
+        
+        while(i<m.length && j<r.length)
+        {
+            if(m[i] != r[j])
+            {
+                i++;
+            }
+            else
+            {
+                i++;
+                j++;
+            }
+        }
+        if(i==m.length && j < r.length) return false;
+        return true;
+    }
+}
