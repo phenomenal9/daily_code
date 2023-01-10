@@ -1,0 +1,33 @@
+import java.util.Map.Entry;
+class Solution {
+    public boolean canConstruct(String ransomNote, String magazine) 
+    {
+        HashMap<Character, Integer> mp = new HashMap<>();
+        
+        for(int i=0; i<magazine.length(); i++)
+        {
+            if(mp.containsKey(magazine.charAt(i)))
+            {
+                mp.put(magazine.charAt(i), mp.get(magazine.charAt(i)) + 1);
+            }
+            else
+            {
+                 mp.put(magazine.charAt(i), 1);          
+            }
+        }
+        
+        for(int j=0; j<ransomNote.length(); j++)
+        {
+           if(mp.containsKey(ransomNote.charAt(j)))
+               mp.put(ransomNote.charAt(j), mp.get(ransomNote.charAt(j))-1);
+           else
+               return false;
+        }
+        for(Entry<Character, Integer> entry: mp.entrySet())
+        {
+            if(entry.getValue() < 0)
+                return false;
+        }
+        return true;
+    }
+}
