@@ -1,0 +1,31 @@
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        ArrayList<Integer> row_coordinates = new ArrayList<>();
+        
+        ArrayList<Integer> column_coordinates = new ArrayList<>();
+        
+        for(int i=0; i<matrix.length; i++)
+        {
+            for(int j=0; j<matrix[0].length; j++)
+            {
+                if(matrix[i][j] == 0)
+                {
+                    row_coordinates.add(i);
+                    column_coordinates.add(j);
+                }
+            }    
+        }
+        for(int l=0; l<row_coordinates.size();l++)
+        {
+            for(int k=0; k<matrix[0].length; k++)
+                matrix[row_coordinates.get(l)][k] = 0;
+        }
+        
+        for(int p=0; p<column_coordinates.size();p++)
+        {
+            for(int q=0; q<matrix.length; q++)
+                matrix[q][column_coordinates.get(p)] = 0;
+        }
+        
+    }
+}
