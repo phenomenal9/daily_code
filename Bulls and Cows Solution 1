@@ -1,0 +1,40 @@
+class Solution {
+    public String getHint(String secret, String guess) {
+        int bulls = 0;
+        int cows = 0;
+        List<Integer> similar_index = new ArrayList<>();
+        List<Character> secret_char = new ArrayList<>();
+        for(int i=0; i<secret.length(); i++)
+        {
+            if(secret.charAt(i) == guess.charAt(i))
+            {
+                bulls ++;
+                similar_index.add(i);
+            }
+            else
+            {
+                secret_char.add(secret.charAt(i));
+            }
+        }
+        int j = 0;
+        while(j<guess.length())
+        {
+            if(similar_index.contains(j))
+            {
+                j++;
+                continue;
+            }
+            if(secret_char.contains(guess.charAt(j)))
+            {
+                int index = secret_char.indexOf(guess.charAt(j));
+                secret_char.remove(index);
+                cows ++;
+            }
+               
+            j++;
+        }
+        
+        return String.valueOf(bulls) + "A" + String.valueOf(cows) + "B";
+    }
+    
+}
