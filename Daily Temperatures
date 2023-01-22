@@ -1,0 +1,19 @@
+class Solution {
+    public int[] dailyTemperatures(int[] temperatures) {
+        Stack<Integer> stk = new Stack<>();
+        int[] wait_days = new int[temperatures.length];
+        for(int i=temperatures.length-1;i>=0;i--)
+        {
+            while(!stk.isEmpty() && temperatures[i]>=temperatures[stk.peek()])
+            {
+                stk.pop();
+            }
+                
+            if(!stk.isEmpty())
+            wait_days[i] = stk.peek() - i;
+            
+            stk.push(i);
+        }
+        return wait_days;
+    }
+}
