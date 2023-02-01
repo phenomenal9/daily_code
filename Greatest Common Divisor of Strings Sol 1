@@ -1,0 +1,91 @@
+class Solution {
+    public String gcdOfStrings(String str1, String str2) {
+        int gcd =1;
+        String s = "";
+        String str = "";
+        if(str1.length()>str2.length())
+        {
+            if(!str1.contains(str2)) return "";
+            else
+            {
+                if(str1.length()%str2.length()==0)
+                {
+
+                    for(int i=0; i<str1.length()/str2.length(); i++)
+                    {
+                        s += str2;
+                    }
+                    if(s.equals(str1))
+                    {
+                        return str2;
+                    }
+
+                    else
+                        return "";
+                }
+                else
+                {
+                    for(int i=1; i<=str2.length(); i++)
+                    {
+                        if(str2.length()%i==0 && str1.length()%i==0)
+                            gcd = i;
+                    }
+                    for(int j=0; j<gcd; j++)
+                    {
+                        str += str2.charAt(j);
+                    }
+
+                    for(int j=0; j<str1.length()/gcd; j++)
+                    {
+                        s += str;
+                    }
+                    if(s.equals(str1))
+                        return str;
+                }
+            }
+        }
+        else
+        {
+            if(!str2.contains(str1)) return "";
+            else
+            {
+                if(str2.length()%str1.length()==0)
+                {
+
+                    for(int i=0; i<str2.length()/str1.length(); i++)
+                    {
+                        s += str1;
+                    }
+                    if(s.equals(str2))
+                    {
+                        return str1;
+                    }
+
+                    else
+                        return "";
+                }
+                else
+                {
+                    for(int i=1; i<=str1.length(); i++)
+                    {
+                        if(str1.length()%i==0 && str2.length()%i==0)
+                            gcd = i;
+                    }
+                    for(int j=0; j<gcd; j++)
+                    {
+                        str += str1.charAt(j);
+                    }
+
+                    for(int j=0; j<str2.length()/gcd; j++)
+                    {
+                        s += str;
+                    }
+                    if(s.equals(str2))
+                        return str;
+                }
+            }
+        }
+        
+        return "";
+    }
+}
