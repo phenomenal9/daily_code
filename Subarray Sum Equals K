@@ -1,0 +1,20 @@
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        Map<Integer, Integer> mp = new HashMap<>();
+        
+        mp.put(0,1);
+        int prevSum = 0;
+        int count = 0;
+        for(int num: nums)
+        {
+            prevSum += num;
+            
+            int remove = prevSum - k;
+            count += mp.getOrDefault(remove, 0);
+            
+            mp.put(prevSum, mp.getOrDefault(prevSum, 0) + 1);
+        }
+        
+        return count;
+    }
+}
