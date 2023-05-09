@@ -1,0 +1,32 @@
+class Solution {
+    public int[] findPeakGrid(int[][] mat) {
+        int startCol = 0;
+        int endCol = mat[0].length - 1;
+        int[] res = {-1, -1};
+        while(startCol<=endCol)
+        {
+            int midCol = startCol + (endCol - startCol)/2;
+            int ansrow = 0;
+            
+            for(int i = 0; i < mat.length; i++)
+            {
+                ansrow = mat[i][midCol]>mat[ansrow][midCol] ? i : ansrow;
+            }
+            
+            boolean valid_left = midCol-1>=startCol && mat[ansrow][midCol-1] > mat[ansrow][midCol];
+            boolean valid_right = midCol+1<=endCol && mat[ansrow][midCol+1] > mat[ansrow][midCol];
+            
+            if(!valid_right && !valid_left)
+            {
+                res[0] = ansrow;
+                res[1] = midCol;
+                return res;
+            }
+            else if(valid_right && !valid_left)
+                startCol = midCol + 1;
+            else
+                endCol = midCol - 1;
+        }
+        return res;
+    }
+}
