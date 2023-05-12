@@ -12,46 +12,40 @@ class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) 
     {
         int sum = l1.val + l2.val;
-        int c = 0;
-        if (sum>=10)
-        {
-            sum = sum - 10;
-            c = 1;
-        }
+        int c = sum/10;
+        sum = sum%10;
+        
         ListNode l = new ListNode(sum);
         ListNode curr = l;
         
         l1 = l1.next;
         l2 = l2.next;
+        
         while(l1!=null || l2!=null)
         {
             if(l2 == null)
-                sum = l1.val + c;
-            else if(l1 == null)
-                sum = l2.val + c;
-            else
-                sum = l1.val + l2.val + c;
-            c = 0;
-            if (sum>=10)
             {
-                sum = sum - 10;
-                c = 1;
-            }
+                sum = l1.val + c;
+                l1 = l1.next;
+            }  
+            else if(l1 == null)
+            {
+                sum = l2.val + c;
+                l2 = l2.next;
+            }   
+            else
+            {
+                sum = l1.val + l2.val + c;
+                l1 = l1.next;
+                l2 = l2.next;
+            }     
+            
+            c = sum/10;
+            sum = sum%10;
                 
             ListNode new_node = new ListNode(sum);
             curr.next = new_node;
-            curr = curr.next;
-            
-            if(l2 == null)
-                l1 = l1.next;
-            else if(l1 == null)
-                l2 = l2.next;
-            else    
-            {
-                l1 = l1.next;
-                l2 = l2.next;
-            }
-                
+            curr = curr.next;        
         }
         if(c == 1)
         {
@@ -62,4 +56,5 @@ class Solution {
         curr.next = null;
         return l;
     }
+}
 }
