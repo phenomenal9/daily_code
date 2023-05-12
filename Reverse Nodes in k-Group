@@ -1,0 +1,88 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseList(ListNode head) 
+    {
+        
+        if (head==null)
+        {
+            return head;
+        }
+        ListNode prev_node = head;
+        ListNode new_node = prev_node.next;
+        ListNode curr;
+        
+        while(new_node != null)
+        {
+            curr = new_node;
+            new_node = curr.next;
+            curr.next = prev_node;
+            prev_node = curr;
+        }
+        head.next = null;
+        head = prev_node;
+        
+        return head;
+    }
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode start = null;
+        ListNode end = head;
+        ListNode startNext = head;
+        ListNode dummy = null;
+        int length = 0;
+        ListNode curr = head;
+        while(curr!=null)
+        {
+            length += 1;
+            curr = curr.next;
+        }
+        
+        int totalReversals = length/k;
+        
+        int i = 0;
+        
+        while(i < totalReversals)
+        {
+            start = startNext;
+            int j = 0;
+            while(j < k)
+            {
+                end = startNext;
+                startNext = startNext.next;
+                j++;
+            }
+            end.next = null;
+            
+            if(i == 0)
+            {
+                head = reverseList(head);
+                dummy = head;
+                i++;
+                continue;
+            }
+            
+            while(dummy.next != null)
+            {
+                dummy = dummy.next;
+            }
+            
+            dummy.next = reverseList(start);
+            
+            i++;
+        }
+        while(dummy.next != null)
+        {
+                dummy = dummy.next;
+        }
+        dummy.next = startNext;
+        return head;
+    }
+}
