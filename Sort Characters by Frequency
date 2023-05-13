@@ -1,0 +1,32 @@
+import java.util.*;
+import java.util.Map.Entry;
+
+class Solution {
+    public String frequencySort(String s) {
+        HashMap<Character, Integer> mp = new HashMap<>();
+        StringBuilder stb = new StringBuilder();
+        for(int i=0; i<s.length(); i++)
+        {
+            if(!mp.containsKey(s.charAt(i)))
+                mp.put(s.charAt(i), 1);
+            else
+                mp.put(s.charAt(i), mp.get(s.charAt(i))+1);
+        }
+        PriorityQueue<Map.Entry<Character, Integer>> pq = new PriorityQueue<>((a,b) -> a.getValue() == b.getValue() ? a.getKey() - b.getKey() : b.getValue() - a.getValue());
+        
+        for(Entry<Character, Integer> entry: mp.entrySet())
+        {
+            pq.offer(entry);
+        }
+        
+        while(!pq.isEmpty())
+        {
+            Entry<Character, Integer> temp = pq.poll();
+            String k = temp.getKey().toString();
+            for(int i=1; i<temp.getValue(); i++)
+                k += temp.getKey();
+            stb.append(k);
+        }
+        return stb.toString();
+    }
+}
