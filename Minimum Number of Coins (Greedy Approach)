@@ -1,0 +1,24 @@
+class Solution{
+    static List<Integer> minPartition(int N)
+    {
+        // code here
+        int[] denomination = { 1, 2, 5, 10, 20, 50, 100, 200, 500, 2000 };
+        List<Integer> ls = new ArrayList<>();
+        int j = denomination.length-1;
+        while(j>=0 && N>0)
+        {
+            if(denomination[j] <= N)
+            {
+                int count = N / denomination[j];
+                N = N%denomination[j];
+                
+                for(int i=0; i<count; i++)
+                {
+                    ls.add(denomination[j]);
+                }
+            }
+            j--;
+        }
+        return ls;
+    }
+}
