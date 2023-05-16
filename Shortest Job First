@@ -1,0 +1,17 @@
+class Solution {
+    static int solve(int bt[] ) {
+    // code here
+    int waitTime = 0;
+    Arrays.sort(bt);
+    
+    for(int i=0; i<bt.length; i++)
+    {
+        for(int j=0; j<i; j++)
+        {
+            waitTime += bt[j];
+        }
+    }
+    return (int)(waitTime/bt.length);
+
+  }
+}
