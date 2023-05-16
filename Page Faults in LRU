@@ -1,0 +1,48 @@
+// User function Template for Java
+
+class Solution{
+    static int pageFaults(int N, int C, int pages[]){
+        // code here
+        Deque<Integer> dq = new ArrayDeque<>();
+        int pageFault = 0;
+        for(int i=0; i<N; i++)
+        {
+            if(dq.size() < C && !dq.contains(pages[i]))
+            {
+                pageFault++;
+                dq.addLast(pages[i]);
+            }
+            else if(dq.size() == C && !dq.contains(pages[i]))
+            {
+                
+                pageFault++;
+                dq.removeFirst();
+                dq.addLast(pages[i]);
+            }        
+            else
+            {
+                Stack<Integer> s = new Stack<>();
+                if(dq.peekFirst() == pages[i])
+                {
+                    dq.removeFirst();
+                    dq.addLast(pages[i]);
+                }
+                    
+                while(dq.peekLast() != pages[i] && dq.contains(pages[i]))
+                {
+                    s.push(dq.peekLast());
+                    dq.removeLast();
+                }
+                dq.removeLast();
+                
+                while(!s.isEmpty())
+                {
+                    dq.addLast(s.peek());
+                    s.pop();
+                }
+                dq.addLast(pages[i]);
+            }
+        }
+        return pageFault;
+    }
+}
