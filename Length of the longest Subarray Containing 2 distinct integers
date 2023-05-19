@@ -1,0 +1,27 @@
+// User function Template for Java
+
+class Solution {
+    public static int totalFruits(int N, int[] fruits) {
+        Map<Integer, Integer> mp = new HashMap<>();
+        int result = 0;
+        int i = 0; 
+        int j = 0;
+        while(j < fruits.length)
+        {
+            mp.put(fruits[j], mp.getOrDefault(fruits[j], 0) + 1);
+            
+            while(mp.size() > 2)
+            {
+                int temp = fruits[i];
+                mp.put(temp, mp.getOrDefault(fruits[i], 0) - 1);
+                
+                if(mp.get(temp) == 0)
+                    mp.remove(temp);
+                i++;
+            }
+            result = Math.max(result, j - i + 1);   
+            j++;
+        }
+        return result;
+    }
+}
