@@ -1,0 +1,16 @@
+class CheckBit
+{
+    // Function to check if Kth bit is set or not.
+    static boolean checkKthBit(int n, int k)
+    {
+        // Your code here 
+        String s = Integer.toBinaryString(n);
+        
+        if(s.length() - 1 - k >= 0)
+        {
+            return (s.charAt(s.length() - 1 - k) - '0') == 1;
+        }
+        return false;
+    }
+    
+}
