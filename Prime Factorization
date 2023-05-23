@@ -1,0 +1,39 @@
+class Solution {
+    // You must implement this function
+    public void sieve() {
+        
+    }
+
+    List<Integer> findPrimeFactors(int N) {
+        // code here
+        
+        boolean[] isPrime = new boolean[N+1];
+        
+        List<Integer> ls = new ArrayList<>();
+        if(N <= 1) return ls;
+        
+        Arrays.fill(isPrime, true);
+        isPrime[0] = false;
+        isPrime[1] = false;
+        
+        for(int i=2; i*i <= N; i++)
+        {
+            for(int j=2*i; j <= N; j += i)
+            {
+                isPrime[j] = false;
+            }
+        }
+        
+        
+        for(int i=2; i<=N; i++)
+        {
+            while(isPrime[i] && N%i==0)
+            {
+                ls.add(i);
+                N /= i;
+            }
+        }
+        
+        return ls;
+    }
+}
