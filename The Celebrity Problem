@@ -1,0 +1,52 @@
+class Solution
+{ 
+    //Function to find if there is a celebrity in the party or not.
+    int celebrity(int M[][], int n)
+    {
+    	// code here 
+		// that person will be a celebrity who does not know anyone but everyone knows whom
+		
+       Stack<Integer> potentialCeleb = new Stack<>();
+		// i am using elimination method to eliminate the suppose person who
+		//is celebrity suupose i think everyone can be celebrity 
+		for(int i=0;i<n;i++){
+			potentialCeleb.push(i);
+		}
+
+		while(potentialCeleb.size()>1){
+			// person 1
+			int pers1 = potentialCeleb.pop();
+			// person 2
+			int pers2 = potentialCeleb.pop();
+			if(M[pers1][pers2]==1){
+				// if person 1 know person 2  that means person1 can not be celebrity 
+				potentialCeleb.push(pers2);
+			}else{
+				// if person1 does not know the person p2 that means p1 can be a celebrity 
+				potentialCeleb.push(pers1);
+			}
+		}
+
+		int celeb =  potentialCeleb.pop();
+		// this can be a celebrity if celebrity does not know anyone and everyone knows celebrity
+		
+		// row should be zero, why?
+		// as a celeb doesn't knows anyone
+		for (int i = 0; i < n; i++) {
+			if (celeb != i && M[celeb][i] == 1) {
+				return -1;
+			}
+		}
+
+		// col should be one, why?
+		// as a celeb is known by everyone
+		for (int i = 0; i < n; i++) {
+			if (celeb != i && M[i][celeb] == 0) {
+				return -1;
+			}
+		}
+
+		// we assured this is a celebrity then return them
+		return celeb;
+    }
+}
