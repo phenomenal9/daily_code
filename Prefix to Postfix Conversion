@@ -1,0 +1,23 @@
+class Solution {
+    static String preToPost(String pre_exp) {
+        // code here
+        Stack<String> stk = new Stack<String>();
+        for(int i=pre_exp.length()-1; i>=0; i--)
+        {
+            if(Character.isLetterOrDigit(pre_exp.charAt(i)))
+            {
+                stk.push(pre_exp.substring(i, i+1));
+            }
+            
+            else
+            {
+                String temp = stk.pop() + stk.pop() + pre_exp.substring(i, i+1);
+                
+                stk.push(temp);
+            }
+        }
+        
+        
+        return stk.peek();
+    }
+}
