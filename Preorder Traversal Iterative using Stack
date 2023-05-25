@@ -1,0 +1,23 @@
+static ArrayList<Integer> preorder(Node root)
+    {
+        ArrayList<Integer> ls = new ArrayList<>();
+        Stack<Node> stk = new Stack<>();
+        stk.push(root);
+        
+        while(!stk.isEmpty())
+        {
+            Node temp = stk.pop();
+            
+            if(temp.right != null)
+                stk.push(temp.right);
+            if(temp.left != null)
+                stk.push(temp.left);
+             
+            ls.add(temp.data); 
+            
+        }
+        return ls;
+        
+    }
+
+}
