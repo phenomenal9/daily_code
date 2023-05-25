@@ -1,0 +1,26 @@
+class Tree
+{
+    ArrayList<Integer> postOrder(Node root)
+    {
+       // Your code goes here
+       Stack<Node> stk = new Stack<>();
+       ArrayList<Integer> ls = new ArrayList<>(); 
+       stk.push(root);
+       
+       while(!stk.isEmpty())
+       {
+            Node temp = stk.pop();
+           
+           
+            if(temp.left != null)
+                stk.push(temp.left);
+            if(temp.right != null)
+                stk.push(temp.right);
+            ls.add(temp.data);
+       }
+       
+       Collections.reverse(ls);
+       
+       return ls;
+    }
+}
