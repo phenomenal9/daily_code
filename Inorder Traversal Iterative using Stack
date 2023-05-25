@@ -1,0 +1,30 @@
+class Solution {
+    // Function to return a list containing the inorder traversal of the tree.
+
+        ArrayList<Integer> inOrder(Node root) {
+        // Code
+        ArrayList<Integer> ls = new ArrayList<>();
+        
+        Stack<Node> stk = new Stack<>();
+        
+        while(true)
+        {
+            if(root != null)
+            {
+                stk.push(root);
+                root = root.left;
+            }
+            else
+            {
+                if(stk.isEmpty()) break;
+                
+                root = stk.peek();
+                ls.add(root.data);
+                stk.pop();
+                root = root.right;
+            }
+        }
+        
+        return ls;
+    }
+}
