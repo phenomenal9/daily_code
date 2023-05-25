@@ -1,0 +1,25 @@
+
+class Solution {
+    static String postToPre(String post_exp) {
+        // code here
+        Stack<String> stk = new Stack<String>();
+        for(int i=0; i<post_exp.length(); i++)
+        {
+            if(Character.isLetterOrDigit(post_exp.charAt(i)))
+            {
+                stk.push(post_exp.substring(i, i+1));
+            }
+            
+            else
+            {
+                String B = stk.pop();
+                String temp = post_exp.substring(i, i+1) + stk.pop() + B;
+                
+                stk.push(temp);
+            }
+        }
+        
+        
+        return stk.peek();
+    }
+}
