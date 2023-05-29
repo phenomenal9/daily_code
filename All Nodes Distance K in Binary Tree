@@ -1,0 +1,106 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+/*
+
+1- Finding the K-1 parents of the target 
+2- Finding the Kth children of the target
+3- Finding the "Kth - parentGeneration" children of each parent
+4- Taking care of the duplications
+
+Time complexity = O(N)
+Space complexity = O(N)
+Where N is the total number of nodes of the binary tree
+*/
+class Solution {
+    Stack<TreeNode> parents = new Stack<>(); //target parents list
+    public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+        
+        List<Integer> result = new ArrayList<>();
+        HashSet<Integer> seen = new HashSet<>(); // to not pass from a path twice 
+        
+        //find parents
+        findParents(root, target);
+
+        //find newK distant children of each parent
+        int newK = k;
+        while(!parents.isEmpty() && newK >= 0){
+            TreeNode currNode = parents.pop();
+            seen.add(currNode.val);
+            List<Integer> currChildren = traverseChildrens(currNode, newK, seen);
+            result.addAll(currChildren);
+            newK--;
+        }
+        
+        return result;
+    }
+    
+    //BFS: find Kth children
+    public List<Integer> traverseChildrens(TreeNode parent, int newK, HashSet<Integer> seen) {
+        
+        Queue<TreeNode> parentsQueue = new LinkedList<>();
+        Queue<TreeNode> childrenQueue = new LinkedList<>();
+        List<Integer> levelNodes = new ArrayList<>();
+        
+        int level = 0;
+        
+        parentsQueue.add(parent);
+        while(!parentsQueue.isEmpty()){
+            //head
+            TreeNode head = parentsQueue.remove();
+            
+            //action
+            levelNodes.add(head.val);
+            
+            //children
+            if(head.left != null && !seen.contains(head.left.val)) childrenQueue.add(head.left);
+            if(head.right != null && !seen.contains(head.right.val)) childrenQueue.add(head.right);
+            
+            //next level
+            if(parentsQueue.isEmpty()){
+                if(level == newK){ //if we find the newK children
+                    return levelNodes;
+                } 
+                else{
+                    levelNodes = new ArrayList<>();
+                    parentsQueue = childrenQueue;
+                    childrenQueue = new LinkedList<TreeNode>();
+                    level++;
+                }
+            }
+        }
+        return new ArrayList<>();
+    }
+    
+    //DFS: find parents, find path from root to target
+    public boolean findParents(TreeNode node, TreeNode target) {
+        if (node == null) {
+            return false;
+        }
+
+        if (node.val == target.val) {
+            parents.push(node);
+            return true;
+        }
+
+        parents.push(node);
+        if (findParents(node.left, target)) {
+            return true;
+        }
+        parents.pop();
+
+        parents.push(node);
+        if (findParents(node.right, target)) {
+            return true;
+        }
+        parents.pop();
+
+        return false;
+    }
+}
