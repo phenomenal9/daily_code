@@ -1,0 +1,44 @@
+class Solution {
+    public int smallestDivisor(int[] nums, int threshold) {
+        int low = 1, high = 0;
+        for(int num : nums)
+        {
+            high = Math.max(num, high);
+        }
+        int ans = 1;
+        while(low <= high)
+        {
+            int mid = low + (high - low)/2;
+            
+            if(isLessThanThreshold(nums, threshold, mid))
+            {
+                ans = mid;
+                high = mid - 1;
+            }
+            else
+            {
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+    
+    public boolean isLessThanThreshold(int[] nums, int threshold, int mid)
+    {
+        int sum = 0;
+        for(int num : nums)
+        {
+            if(num % mid == 0)
+            {
+                sum += (int)(num/mid);
+            }
+            else
+            {
+                sum += (int)(num/mid);
+                sum++;
+            }
+        }
+        //System.out.println(sum);
+        return sum <= threshold;
+    }
+}
