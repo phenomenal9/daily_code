@@ -1,0 +1,31 @@
+
+// User function Template for Java
+
+class Tree {
+    // Function to return the ceil of given number in BST.
+    int findCeil(Node root, int key) {
+        if (root == null) return -1;
+        // Code here
+        int ans = -1;
+        Node curr = root;
+        if(root.data == key) return root.data;
+        //if(root.data == key + 1 && root.left == null) return root.data;
+        
+        while(curr != null)
+        {
+            if(curr.data > key)
+            {
+                ans = curr.data;
+                curr = curr.left;
+            }
+            
+            else if(curr.data < key)
+            {
+                curr = curr.right;
+            }
+            else if(curr.data == key)
+                return curr.data;
+        }
+        return ans;
+    }
+}
