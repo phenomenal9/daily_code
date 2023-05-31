@@ -1,0 +1,35 @@
+
+// User function Template for Java
+
+class Solution {
+    // Function to insert a node in a BST.
+    Node insert(Node root, int Key) {
+        // your code here
+        Node curr = root;
+        
+        while(true)
+        {
+            if(curr.data < Key)
+            {
+                if(curr.right != null) curr = curr.right;
+                else
+                {
+                    curr.right = new Node(Key);
+                    break;
+                }
+            }
+            else if(curr.data > Key)
+            {
+               if(curr.left != null) curr = curr.left;
+                else
+                {
+                    curr.left = new Node(Key);
+                    break;
+                } 
+            }
+            else
+                return root;
+        }
+        
+        return root;
+    }
