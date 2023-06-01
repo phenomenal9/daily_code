@@ -35,6 +35,8 @@ class Solution {
         return 0;
     }
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        Stack<TreeNode> s1 = new Stack<>();
+        Stack<TreeNode> s2 = new Stack<>();
         
         findPath(root, p, s1);
         findPath(root, q, s2);
