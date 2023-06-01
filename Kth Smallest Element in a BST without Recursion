@@ -1,0 +1,42 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int getSizeOfTree(TreeNode root){
+    if(root == null)
+        return 0;
+    return getSizeOfTree(root.left) + 1 + getSizeOfTree(root.right);
+}
+    
+    public int kthSmallest(TreeNode root, int k) {
+        int ans = -1;
+        while(root != null)
+        {
+            int size = getSizeOfTree(root.left);
+            if(root.left != null && size >= k)
+                root = root.left;
+            else if(root.left == null || size < k)
+            {
+                k = k - size - 1;
+                if(k == 0)
+                    return root.val;
+                else if(k < 0)
+                    return -1;
+                root = root.right;
+            }
+        }
+        return ans;
+    }
+}
