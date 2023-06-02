@@ -1,0 +1,34 @@
+class Solution
+{
+    public void dfs(int[][] image, int sr, int sc, int src){
+        image[sr][sc] = -1;
+        
+        int[] dx = {0, 1, 0, -1};
+        int[] dy = {1, 0, -1, 0};
+        
+        for(int i=0; i<4; i++)
+        {
+            int row = sr + dx[i];
+            int col = sc + dy[i];
+            
+            if(row >= 0 && col >= 0 && row < image.length && col < image[0].length && image[row][col] == src)
+                dfs(image, row, col, src);
+        }
+        return;
+    }
+    public int[][] floodFill(int[][] image, int sr, int sc, int newColor)
+    {
+        // Code here 
+        int src = image[sr][sc];
+        dfs(image, sr, sc, src);
+        for(int i=0; i<image.length; i++)
+        {
+            for(int j=0; j<image[0].length; j++)
+            {
+                if(image[i][j] == -1)
+                    image[i][j] = newColor;
+            }
+        }
+        return image;
+    }
+}
