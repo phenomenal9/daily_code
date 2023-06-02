@@ -1,0 +1,83 @@
+class Solution {
+    public int orangesRotting(int[][] grid) {
+        Queue<Integer> q = new java.util.LinkedList<>();
+        for(int i=0; i<grid.length; i++)
+        {
+            for(int j=0; j<grid[0].length; j++)
+            {
+                if(grid[i][j] == 2)
+                {
+                    q.offer(i*grid[0].length + j);
+                }
+            }
+        }
+        
+        int timeSpent = 0;
+        int col = grid[0].length;
+        while(!q.isEmpty())
+        {
+            int num = q.size();
+            int time = 0;
+            //System.out.println("Hello" + num);
+            for(int i=0; i<num; i++)
+            {
+                int temp = q.poll();
+                //System.out.println(temp); 
+                if(temp >= 1 && temp % col >= 1  )
+                {
+                    if(grid[(int)((temp - 1)/col)][(temp - 1)%col] == 1)
+                    {
+                        time++;
+                        q.offer(temp - 1);
+                        grid[(int)((temp - 1)/col)][(temp - 1)%col] = 2;
+                    }
+                }
+                if(temp <= grid.length * col - 1 && temp % col < col - 1)
+                {
+                    if(grid[(int)((temp + 1)/col)][(temp + 1)%col] == 1)
+                    {
+                        time++;
+                        q.offer(temp + 1);
+                        grid[(int)((temp + 1)/col)][(temp + 1)%col] = 2;
+                    }
+                }
+                if(temp - col >= 0)
+                {
+                    if(grid[(int)((temp - col)/col)][(temp - col)%col] == 1)
+                    {
+                        time++;
+                        q.offer(temp - col);
+                        grid[(int)((temp - col)/col)][(temp - col)%col] = 2;
+                    }
+                }
+                if(temp + col < grid.length * col)
+                {
+                    if(grid[(int)((temp + col)/col)][(temp + col)%col] == 1)
+                    {
+                        time++;
+                        q.offer(temp + col);
+                        grid[(int)((temp + col)/col)][(temp + col)%col] = 2;
+                    }
+                }   
+            }
+            //System.out.println("Time" + time);
+            if(time > 0)
+            {
+                time = 0;
+                timeSpent++;
+            }
+            //System.out.println("time spent" + timeSpent);
+        }
+        for(int i=0; i<grid.length; i++)
+        {
+            for(int j=0; j<grid[0].length; j++)
+            {
+                if(grid[i][j] == 1)
+                {
+                    return -1;
+                }
+            }
+        }
+        return timeSpent;
+    }
+}
