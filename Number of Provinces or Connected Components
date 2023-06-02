@@ -1,22 +1,32 @@
+//User function Template for Java
+
 class Solution {
-    // Function to return a list containing the DFS traversal of the graph.
-    public void dfsTraversal(ArrayList<ArrayList<Integer>> adj, int[] visited, int idx, ArrayList<Integer> dfs){
+    static void dfsTraversal(ArrayList<ArrayList<Integer>> adj, int[] visited, int idx){
+        
         visited[idx] = 1;
-        dfs.add(idx);
-        for(Integer it : adj.get(idx))
+        for(int i=0; i<adj.get(idx).size(); i++)
         {
-            if(visited[it] == 0)
+            if(adj.get(idx).get(i) == 1)
             {
-                dfsTraversal(adj, visited, it, dfs);
+                if(visited[i] == 0)
+                    dfsTraversal(adj, visited, i);
             }
         }
+        
         return;
     }
-    public ArrayList<Integer> dfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
-        // Code here
+    static int numProvinces(ArrayList<ArrayList<Integer>> adj, int V) {
+        // code here
+        int numProvince = 0;
         int[] visited = new int[V];
-        ArrayList<Integer> dfs = new ArrayList<>();
-        dfsTraversal(adj, visited, 0, dfs);
-        return dfs;
+        for(int i = 0; i < V; i++)
+        {
+            if(visited[i] == 0)
+            {
+                numProvince++;
+                dfsTraversal(adj, visited, i);
+            }
+        }
+        return numProvince;
     }
-}
+};
