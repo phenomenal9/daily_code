@@ -1,0 +1,32 @@
+class Solution {
+    // Function to detect cycle in an undirected graph.
+    public boolean detectCycleusingDFS(ArrayList<ArrayList<Integer>> adj, int[] visited, int src, int parent)
+    {
+        visited[src] = 1;
+        for(int adjacentNode : adj.get(src))
+        {
+            if(visited[adjacentNode] == 0)
+            {
+                boolean hasCycle = detectCycleusingDFS(adj, visited, adjacentNode, src);
+                if(hasCycle) return true;
+            }
+            else if(adjacentNode != parent)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
+        // Code here
+        int[] visited = new int[V];
+        for(int i=0; i<V; i++)
+        {
+            if(visited[i] == 0)
+            {
+                if(detectCycleusingDFS(adj, visited, i, -1)) return true;
+            }
+        }
+        return false;
+    }
+}
