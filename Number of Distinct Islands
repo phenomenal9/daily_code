@@ -1,0 +1,50 @@
+// User function Template for Java
+
+class Solution {
+    
+    void dfs(int[][] grid, ArrayList<String> ls, int row, int col, int row0, int col0)
+    {
+        grid[row][col] = -1;
+        int[] dx = {0, 1, 0, -1};
+        int[] dy = {1, 0, -1, 0};
+        ls.add(toString(row - row0, col - col0));
+        
+        for(int i=0; i<4; i++)
+        {
+            int nr = dx[i] + row;
+            int nc = dy[i] + col;
+            
+            if(nr >= 0 && nc >= 0 && nr < grid.length && nc < grid[0].length && grid[nr][nc] == 1)
+                dfs(grid, ls, nr, nc, row0, col0);
+        }
+        
+        return;
+    }
+    
+    String toString(int r, int c)
+    {
+        return Integer.toString(r) + " " + Integer.toString(c);
+    }
+    int countDistinctIslands(int[][] grid) {
+        // Your Code here
+        
+        Set<ArrayList<String>> hs = new HashSet<>();
+        
+        for(int i=0; i<grid.length; i++)
+        {
+            for(int j=0; j<grid[0].length; j++)
+            {
+                if(grid[i][j] == 1)
+                {
+                    ArrayList<String> ls = new ArrayList<>();
+                    dfs(grid, ls, i, j, i, j);
+                    //Collections.sort(ls);
+                    hs.add(ls);
+                    //System.out.println("DOne");
+                }
+            }
+        }
+        
+        return hs.size();
+    }
+}
