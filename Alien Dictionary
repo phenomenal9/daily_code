@@ -1,0 +1,55 @@
+class Solution
+{
+    public void dfs(int src, boolean[] visited, Stack<Character> stk, ArrayList<ArrayList<Integer>> adj){
+        visited[src] = true;
+        
+        for(int idx : adj.get(src))
+        {
+            if(!visited[idx])
+                dfs(idx, visited, stk, adj);
+        }
+        
+        stk.push((char)(src + 97));
+        return;
+    }
+    
+    public String findOrder(String [] dict, int N, int K)
+    {
+        // Write your code here
+        
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        
+        for(int i=0; i<K; i++)
+            adj.add(new ArrayList<Integer>());
+            
+        for(int i=1; i<dict.length; i++)
+        {
+            for(int j=0; j<Math.min(dict[i-1].length(), dict[i].length()); j++)
+            {
+                if(dict[i].charAt(j) != dict[i-1].charAt(j))
+                {
+                    adj.get((int)(dict[i-1].charAt(j)) - 97).add((int)(dict[i].charAt(j)) - 97);
+                    break;
+                }
+            }
+        }
+        
+        Stack<Character> stk = new Stack<>();
+        
+        boolean[] visited = new boolean[K];
+        
+        for(int i=0; i<K; i++)
+        {
+            if(!visited[i])
+                dfs(i, visited, stk, adj);
+        }
+        
+        String res = "";
+        while(!stk.isEmpty())
+        {
+            res += stk.pop();
+        }
+        
+        return res;
+    }
+}
