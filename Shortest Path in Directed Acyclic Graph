@@ -1,0 +1,72 @@
+//User function Template for Java
+class Pair {
+    int node;
+    int edgeWt;
+    
+    Pair(int node, int edgeWt){
+        this.node = node;
+        this.edgeWt = edgeWt;
+    }
+}
+class Solution {
+    //Topological Sort
+    public void topoSortusingDFS(int src, boolean[] visited, Stack<Integer> stk, ArrayList<ArrayList<Pair>> adj)
+    {
+        visited[src] = true;
+        
+        for(Pair it : adj.get(src))
+        {
+            if(!visited[it.node])
+            {
+                topoSortusingDFS(it.node, visited, stk, adj);
+            }
+        }
+        
+        stk.push(src);
+        return;
+    }
+	public int[] shortestPath(int n,int m, int[][] edges) {
+		//Code here
+		ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
+        for(int i=0; i<n; i++)
+            adj.add(new ArrayList<Pair>());
+
+        for(int i=0; i<m; i++)
+        {
+            adj.get(edges[i][0]).add(new Pair(edges[i][1], edges[i][2]));
+        }
+        boolean[] visited = new boolean[n];
+        int[] distanceArray = new int[n];
+        
+        for(int i=0; i<n; i++)
+            distanceArray[i] = (int)1e9;
+            
+        Stack<Integer> stk = new Stack<>();
+        for(int i=0; i<n; i++)
+        {
+            if(!visited[i])   topoSortusingDFS(i, visited, stk, adj);
+        }
+        
+        distanceArray[0] = 0;
+        while(!stk.isEmpty())
+        {
+            int temp = stk.pop();
+            for(Pair it : adj.get(temp))
+            {
+                int node = it.node;
+                int edgeWt = it.edgeWt;
+                
+                if(distanceArray[temp] + edgeWt < distanceArray[node])
+                    distanceArray[node] = distanceArray[temp] + edgeWt;
+            }
+        }
+        
+        for(int i=0; i<n; i++)
+        {
+            if(distanceArray[i] >= (int)1e9)
+                distanceArray[i] = -1;
+        }
+        
+        return distanceArray;
+	}
+}
