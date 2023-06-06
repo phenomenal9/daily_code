@@ -1,0 +1,38 @@
+//Using DFS
+
+class Solution {
+    public boolean checkForCycle(int src, int[] visited, int[] pathVisited, int[] checkNode, int[][] graph){
+        visited[src] = 1;
+        pathVisited[src] = 1;
+        checkNode[src] = 0;
+        for(int idx : graph[src])
+        {
+            if(visited[idx] == 0){
+                if(checkForCycle(idx, visited, pathVisited, checkNode, graph)) return true;
+            }
+            else if(pathVisited[idx] == 1)
+                return true;
+        }
+        checkNode[src] = 1;
+        pathVisited[src] = 0;
+        return false;
+    }
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        int[] visited = new int[graph.length];
+        int[] pathVisited = new int[graph.length];
+        int[] checkNode = new int[graph.length];
+        
+        for(int i=0; i<graph.length; i++)
+        {
+            if(visited[i] == 0)
+                checkForCycle(i, visited, pathVisited, checkNode, graph);
+        }
+        List<Integer> res = new ArrayList<>();
+        for(int i=0; i<graph.length; i++)
+        {
+            if(checkNode[i] == 1) res.add(i);
+        }
+        
+        return res;
+    }
+}
