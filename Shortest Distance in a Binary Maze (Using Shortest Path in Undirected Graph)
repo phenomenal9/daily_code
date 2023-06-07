@@ -1,0 +1,46 @@
+class Tuple{
+    int row;
+    int col;
+    int distance;
+    
+    Tuple(int distance, int row, int col){
+        this.distance = distance;
+        this.row = row;
+        this.col = col;
+    }
+}
+class Solution {
+    int shortestPath(int[][] grid, int[] source, int[] destination) {
+
+        // Your code here
+        if(source[0] == destination[0] && source[1] == destination[1]) return 0;
+        Queue<Tuple> pq = new java.util.LinkedList<>();
+        
+        //if(grid)
+        pq.offer(new Tuple(0, source[0], source[1]));
+        
+        int distance = -1;
+        int[] dx = {0, 1, 0, -1};
+        int[] dy = {1, 0, -1, 0};
+        while(!pq.isEmpty())
+        {
+            Tuple temp = pq.poll();
+            
+            for(int i=0; i<4; i++)
+            {
+                int sr = dx[i] + temp.row;
+                int sc = dy[i] + temp.col;
+                
+                if(sr < 0 || sc < 0 || sr == grid.length || sc == grid[0].length || grid[sr][sc] != 1)
+                    continue;
+                
+                if(sr == destination[0] && sc == destination[1])
+                    return temp.distance + 1;
+                pq.offer(new Tuple(temp.distance + 1, sr, sc));
+                grid[sr][sc] = -1;
+            }
+        }
+        
+        return distance;
+    }
+}
