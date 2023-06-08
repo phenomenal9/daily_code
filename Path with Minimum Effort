@@ -1,0 +1,61 @@
+class Tuple{
+    int distance;
+    int row;
+    int col;
+    
+    Tuple(int distance, int row, int col){
+        this.distance = distance;
+        this.row = row;
+        this.col = col;
+    }
+}
+
+class Solution {
+    
+    //Dijkstra Algorithm
+    
+    public int minimumEffortPath(int[][] heights) {
+        PriorityQueue<Tuple> pq = new PriorityQueue<>((a,b)->a.distance - b.distance);
+        
+        int[][] diff = new int[heights.length][heights[0].length];
+        
+        for(int i=0; i<heights.length; i++)
+        {
+            for(int j=0; j<heights[0].length; j++)
+            {
+                diff[i][j] = (int)1e9;
+            }
+        }
+        
+        diff[0][0] = 0;
+        
+        pq.offer(new Tuple(0, 0, 0));
+        int[] dx = {0, 1, 0, -1};
+        int[] dy = {1, 0, -1, 0};
+        
+        while(!pq.isEmpty())
+        {
+            int row = pq.peek().row;
+            int col = pq.peek().col;
+            int height = pq.peek().distance;
+            pq.poll();
+            if(row == heights.length - 1 && col == heights[0].length - 1) return height;
+            for(int i=0; i<4; i++)
+            {
+                int nr = dx[i] + row;
+                int nc = dy[i] + col;
+                
+                if(nr < 0 || nc < 0 || nr == heights.length || nc == heights[0].length) continue;
+                
+                int newEffort = Math.max(height, Math.abs(heights[nr][nc] - heights[row][col]));
+                
+                if(newEffort < diff[nr][nc]){
+                    diff[nr][nc] = newEffort;
+                
+                    pq.offer(new Tuple(newEffort, nr, nc));
+                }
+            }
+        }
+        return 0;
+    }
+}
