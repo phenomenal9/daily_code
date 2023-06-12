@@ -1,0 +1,66 @@
+class Solution
+{
+    public ArrayList<ArrayList<String>> findSequences(String startWord, String targetWord, String[] wordList)
+    {
+        // Code here
+        Set<String> hs = new HashSet<>();
+        
+        for(int i=0; i<wordList.length; i++) {
+            hs.add(wordList[i]);
+        }
+        hs.remove(startWord);
+        
+        ArrayList<String> ls = new ArrayList<>();
+        Queue<ArrayList<String>> q = new java.util.LinkedList<>();
+        ls.add(startWord);
+        q.offer(ls);
+        
+        int currLevel = 0;
+        ArrayList<String> usedOnLevel = new ArrayList<>();
+        usedOnLevel.add(startWord);
+        
+        ArrayList<ArrayList<String>> res = new ArrayList<>();
+        while(!q.isEmpty()) {
+            ArrayList<String> temp = q.poll();
+            
+            if(temp.size() > currLevel) {
+                currLevel++;
+                while(usedOnLevel.size() != 0) {
+                    hs.remove(usedOnLevel.get(0));
+                    usedOnLevel.remove(0);
+                }
+            }
+            
+            String word = temp.get(temp.size() - 1);
+            
+            if(word.equals(targetWord)) {
+                if(res.size() == 0) res.add(temp);
+                else if(res.get(0).size() == temp.size()) res.add(temp);
+            }
+            for(int i=0; i<word.length(); i++) {
+                for(char ch ='a'; ch<='z'; ch++) {
+                    char[] replacedCh = word.toCharArray();
+                    replacedCh[i] = ch;
+                    String newWord = new String(replacedCh);
+                    
+                    if(hs.contains(newWord)) {
+                        usedOnLevel.add(newWord);
+                        //Java works by reference
+                        
+                        //That is why we have created a separate variable temp2 
+                        //in order to push the list into the queue. Otherwise,
+                        //when the temp.remove() is implemented, it removes 
+                        //the last element from the list pushed into the queue.
+                        //As a result the code goes into TLE.
+                        
+                        ArrayList<String> temp1 = new ArrayList<>(temp);
+                        temp1.add(newWord);
+                        q.offer(temp1);
+                    }
+                }
+            }
+        }
+        
+        return res;
+    }
+}
