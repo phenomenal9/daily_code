@@ -1,0 +1,51 @@
+class Solution {
+    public int countSubsets(int arr[], int n, int sum) 
+	{ 
+	    // Your code goes here
+	    int[][] t = new int[n+1][sum+1];
+	    
+	    //In case zeros are present in the array, the count will be different
+        int countZero = 0;
+        
+        
+        for(int i=0; i<arr.length; i++) {
+            if(arr[i] == 0) countZero++;
+        }
+        // Base condition
+        for(int j=0; j<sum+1; j++) {
+            t[0][j] = 0;
+        }
+        //System.out.println(countZero);
+        for(int i=n; i>=1; i--) {
+            
+            //If the current element in the array is 0, as we are traversing backwards, 
+            //the choice of 0's have to be reduced. Otherwise, there is no such reduction
+            //of choices
+            
+            if(arr[i-1] == 0) {
+                t[i][0] = (int)Math.pow(2, countZero);
+                countZero--;
+            }
+            else 
+                t[i][0] = (int)Math.pow(2, countZero);
+        }
+        
+        t[0][0] = 1;
+        
+        for(int i=1; i<n+1; i++) {
+            for(int j=1; j<sum+1; j++) {
+                if(arr[i-1] <= j) {
+                    t[i][j] = (t[i-1][j] + t[i][j-arr[i-1]]);
+                }
+
+                else
+                    t[i][j] = t[i-1][j];
+            }
+        }
+
+        return t[n][sum];
+	}
+    public int change(int amount, int[] coins) {
+        return countSubsets(coins, coins.length, amount);
+    }
+}
