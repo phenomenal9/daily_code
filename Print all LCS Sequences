@@ -1,0 +1,86 @@
+//User function Template for Java
+class Tuple {
+    int first;
+    int second;
+    String third;
+    
+    Tuple(int first, int second, String third) {
+        this.first = first;
+        this.second = second;
+        this.third = third;
+    }
+}
+
+class Solution
+{
+    public void findLCS(String text1, String text2, int m, int n, int[][] t) {
+        
+        
+        // Initialization
+        
+        for(int i=0; i<m+1; i++) 
+            t[i][0] = 0;
+        for(int j=0; j<n+1; j++)
+            t[0][j] = 0;
+        
+        // Choice Diagram
+        
+        for(int i=1; i<m+1; i++) {
+            for(int j=1; j<n+1; j++) {
+                if(text1.charAt(i-1) == text2.charAt(j-1)) 
+                    t[i][j] = 1 + t[i-1][j-1];
+                else
+                    t[i][j] = Math.max(t[i-1][j], t[i][j-1]);
+            }
+        }
+        
+    }
+    public List<String> all_longest_common_subsequences(String s, String r)
+    {
+        // Code here
+        int m = s.length();
+        int n = r.length();
+        int[][] t = new int[m+1][n+1];
+        findLCS(s, r, m, n, t);
+        
+        Stack<Tuple> stk = new Stack<>();
+        stk.push(new Tuple(m, n, ""));
+        List<String> ls = new ArrayList<>();
+        
+        Set<String> hs = new HashSet<>();
+        
+        while(!stk.isEmpty()) {
+            int i = stk.peek().first;
+            int j = stk.peek().second;
+            String start = stk.pop().third;
+            
+            while(i > 0 && j > 0) {
+                if(s.charAt(i-1) == r.charAt(j-1)) {
+                    start = s.charAt(i-1) + start;
+                    i--;
+                    j--;
+                }
+                else {
+                    if(t[i-1][j] > t[i][j-1]) {
+                        i--;
+                    }
+                    else if(t[i][j-1] > t[i-1][j]) {
+                        j--;
+                    }
+                    else {
+                        stk.push(new Tuple(i, j-1, start));
+                        i--;
+                    }
+                }
+            }
+            if(start.length() == t[m][n])
+                hs.add(start);
+        }
+        
+        for(String temp : hs) {
+            if(!ls.contains(s)) ls.add(temp);
+        }
+        Collections.sort(ls);
+        return ls;
+    }
+}
