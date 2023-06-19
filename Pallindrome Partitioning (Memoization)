@@ -1,0 +1,65 @@
+class Solution {
+    public boolean isPallindrome(String s, int i, int j) {
+        int start = i;
+        int end = j;
+        
+        while(start < end) {
+            if(s.charAt(start) != s.charAt(end))
+                return false;
+            start++;
+            end--;
+        }
+        return true;
+    }
+    
+    public int solve(String s, int i, int j, int[][] t) {
+        if(i >= j) return 0;
+        
+        if(t[i][j] != -1) return t[i][j];
+        
+        if(isPallindrome(s, i, j)) return 0;
+
+        int ans = Integer.MAX_VALUE;
+
+        for(int k=i; k<j; k++) {
+            
+            int left = 0, right = 0;
+            
+            if(t[i][k] != -1) 
+                left = t[i][k];
+            else {
+                left = solve(s, i, k, t);
+                t[i][k] = left;
+            }
+            
+            if(t[k+1][j] != -1) 
+                right = t[k+1][j];
+            else {
+                right = solve(s, k+1, j, t);
+                t[k+1][j] = right;
+            }
+            
+            int temp_ans = left + right + 1;
+
+            ans = Math.min(temp_ans, ans);
+        }
+
+        return t[i][j] = ans;
+    }
+    
+    public int matrixMultiplication(int N, String s)
+    {
+        // code here
+        int[][] t = new int[N+1][N+1];
+
+        for(int i=0; i<N+1; i++) {
+            for(int j=0; j<N+1; j++) {
+                t[i][j] = -1;
+            }
+        }
+        return solve(s, 0, N-1, t);
+    }
+    public int minCut(String s) {
+        return matrixMultiplication(s.length(), s);
+    }
+}
