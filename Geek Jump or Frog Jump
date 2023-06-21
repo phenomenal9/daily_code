@@ -1,0 +1,14 @@
+class Solution{
+    public int minimumEnergy(int height[],int N){
+        //code here
+        int[] t = new int[N+1];
+        t[0] = 0;
+        t[1] = 0;
+        if(N > 1) t[2] = Math.abs(height[1] - height[0]);
+        
+        for(int i=3; i<N+1; i++) {
+            t[i] = Math.min(t[i-1] + Math.abs(height[i-1] - height[i-2]), t[i-2] + Math.abs(height[i-1] - height[i-3]));
+        }
+        return t[N];
+    }
+}
