@@ -1,0 +1,52 @@
+class Solution{
+    static int mod = 1003;
+    static int solve(String S, int i, int j, boolean isTrue, HashMap<String, Integer> mp) {
+        if(i > j) return 0;
+        
+        if(i == j) {
+            if(isTrue) {
+                if(S.charAt(i) == 'T') return 1;
+                else return 0;
+            }
+            else{
+                if(S.charAt(i) == 'F') return 1;
+                else return 0;
+            }
+        }
+        
+        String key = Integer.toString(i) + " " + Integer.toString(j) + " " + Boolean.toString(isTrue);
+        if(mp.containsKey(key)) {
+            return mp.get(key);
+        }
+        
+        int ans = 0;
+        for(int k=i+1; k<j; k=k+2) {
+            int lt = solve(S, i, k-1, true, mp) % mod;
+            int lf = solve(S, i, k-1, false, mp) % mod;
+            int rt = solve(S, k+1, j, true, mp) % mod;
+            int rf = solve(S, k+1, j, false, mp) % mod;
+            
+            if(S.charAt(k) == '|') {
+                if(isTrue) ans += ((lt * rt) % mod + (lf * rt) % mod + (lt * rf) % mod) % mod;
+                else ans += (lf * rf) % mod;
+            }
+            
+            else if(S.charAt(k) == '&') {
+                if(isTrue) ans += (lt * rt) % mod;
+                else ans += ((lf * rf) % mod + (lf * rt) % mod + (lt * rf) % mod) % mod;
+            }
+            
+            else if(S.charAt(k) == '^') {
+                if(isTrue) ans += ((lf * rt) % mod + (lt * rf) % mod) % mod;
+                else ans +=  ((lt * rt) % mod + (lf * rf) % mod) % mod;
+            }
+        }
+        mp.put(key, ans % mod);
+        return ans % mod;
+    }
+    static int countWays(int N, String S){
+        // code here
+        HashMap<String, Integer> mp = new HashMap<>();
+        return solve(S, 0, N-1, true, mp);
+    }
+}
