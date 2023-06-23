@@ -1,0 +1,26 @@
+//User function Template for Java//User function Template for Java
+class Solution{
+    void solve(ArrayList<Integer> nums, int idx, int sum, List<Integer> res) {
+        if(idx == nums.size()) {
+            res.add(sum);
+            return;
+        }
+        
+        int temp1 = sum;
+        int temp2 = sum;
+
+        temp2 += nums.get(idx);
+        idx++;
+        
+        solve(nums, idx, temp1, res);
+        solve(nums, idx, temp2, res);
+
+        return;
+    }
+    ArrayList<Integer> subsetSums(ArrayList<Integer> arr, int N){
+        // code here
+        ArrayList<Integer> res = new ArrayList<>();
+        solve(arr, 0, 0, res);
+        return res;
+    }
+}
