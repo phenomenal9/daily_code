@@ -1,0 +1,30 @@
+class Solution {
+    public void solve(int[] nums, int idx, List<Integer> ls, List<List<Integer>> res) {
+        if(idx == nums.length) {
+            res.add(ls);
+            return;
+        }
+        List<Integer> temp1 = new ArrayList<>();
+        List<Integer> temp2 = new ArrayList<>();
+        
+        for(int i=0; i<ls.size(); i++){
+            temp1.add(ls.get(i));
+            temp2.add(ls.get(i));
+        }
+        
+        temp2.add(nums[idx]);
+        idx++;
+        solve(nums, idx, temp1, res);
+        solve(nums, idx, temp2, res);
+        
+        return;
+    }
+    
+    public List<List<Integer>> subsets(int[] nums) {
+        List<Integer> ls = new ArrayList<>();
+        List<List<Integer>> res = new ArrayList<>();
+        
+        solve(nums, 0, ls, res);
+        return res;
+    }
+}
