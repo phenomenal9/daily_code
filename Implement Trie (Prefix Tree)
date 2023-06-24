@@ -1,0 +1,53 @@
+class TrieNode {
+    TrieNode[] children = new TrieNode[26];
+    
+    boolean isEndOfWord;
+    
+    TrieNode() {
+        isEndOfWord = false;
+        for(int i=0; i<26; i++) children[i] = null;
+    }
+}
+
+class Trie {
+    TrieNode root;
+    public Trie() {
+        this.root = new TrieNode();
+    }
+    
+    public void insert(String key) {
+        TrieNode currNode = root;
+        for(int i=0; i<key.length(); i++) {
+            if(currNode.children[key.charAt(i) - 'a'] == null) {
+                currNode.children[key.charAt(i) - 'a'] = new TrieNode();
+            }
+            currNode = currNode.children[key.charAt(i) - 'a'];
+        }
+
+        currNode.isEndOfWord = true;
+    }
+    
+    public boolean search(String key) {
+        TrieNode currNode = root;
+        for(int i=0; i<key.length(); i++) {
+            if(currNode.children[key.charAt(i) - 'a'] == null) {
+                return false;
+            }
+            currNode = currNode.children[key.charAt(i) - 'a'];
+        }
+
+        return currNode.isEndOfWord;
+    }
+    
+    public boolean startsWith(String prefix) {
+        TrieNode currNode = root;
+        for(int i=0; i<prefix.length(); i++) {
+            if(currNode.children[prefix.charAt(i) - 'a'] == null) {
+                return false;
+            }
+            currNode = currNode.children[prefix.charAt(i) - 'a'];
+        }
+
+        return true;
+    }
+}
