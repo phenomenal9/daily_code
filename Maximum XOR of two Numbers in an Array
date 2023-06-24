@@ -1,0 +1,72 @@
+class TrieNode {
+        TrieNode[] children = new TrieNode[2];
+        
+        TrieNode() {
+            
+        }
+        
+        boolean containsKey(int bit) {
+            return children[bit] != null;
+        }
+        
+        TrieNode get(int bit) {
+            return children[bit];
+        }
+        
+        void put(int bit, TrieNode node) {
+            children[bit] = node;
+        }
+    }
+    
+class Trie {
+     TrieNode root;
+    
+    Trie() {
+        this.root = new TrieNode();
+    }
+    
+    public void insert(int num) {
+        TrieNode curr = root;
+        
+        for(int i = 31;i>=0;i--) {
+            int bit = (num >> i) & 1; 
+            if(!curr.containsKey(bit)) {
+                curr.put(bit, new TrieNode()); 
+            }
+            curr = curr.get(bit); 
+        }
+    }
+    
+    public int maxXOR(int num) {
+        TrieNode node = root;
+        int maxNum = 0; 
+        for(int i = 31;i>=0;i--) {
+            int bit = (num >> i) & 1; 
+            if(node.containsKey(1 - bit)) {
+                maxNum = maxNum | (1<<i);
+                node = node.get( 1 - bit); 
+            }
+            else {
+                node = node.get(bit); 
+            }
+        }
+        //System.out.println(maxNum);
+        return maxNum; 
+    }
+    
+}
+
+class Solution {
+    public int findMaximumXOR(int[] nums) {
+        Trie alphabet = new Trie();
+        for(int num : nums) {
+            alphabet.insert(num);
+        }
+        int maxi = 0;
+        for(int j = 0; j < nums.length; j++) {
+            maxi = Math.max(maxi, alphabet.maxXOR(nums[j]));
+        }
+        
+        return maxi;
+    }
+}
