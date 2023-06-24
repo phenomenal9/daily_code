@@ -1,0 +1,88 @@
+import java.util.* ;
+import java.io.*; 
+class TrieNode {
+    TrieNode[] children;
+    boolean isEnd;
+
+    public TrieNode() {
+      this.children = new TrieNode[26];
+      for(int i=0; i<26; i++) children[i] = null;
+      this.isEnd = false;
+    }
+    boolean containsKey(char c) {
+        return children[c - 'a'] != null;
+    } 
+
+    TrieNode get(char c) {
+        return children[c - 'a'];
+    }
+
+    void put(char c, TrieNode node) {
+        children[c - 'a'] = node;
+    }
+    void setEnd() {
+      isEnd = true;
+    }
+}
+class Trie {
+    public static TrieNode root;
+    public Trie() {
+        // Write your code here.
+        this.root = new TrieNode();
+    }
+
+    public static void insert(String word) {
+        // Write your code here.
+        TrieNode currNode = root;
+
+        for(int i=0; i<word.length(); i++) {
+            if(!currNode.containsKey(word.charAt(i))) {
+                currNode.put(word.charAt(i), new TrieNode());    
+            }
+            currNode = currNode.get(word.charAt(i));
+        }
+        currNode.setEnd();
+    }
+
+    public static boolean checkWhetherPrefixExists(String word) {
+        // Write your code here.
+        TrieNode currNode = root;
+        boolean flag = true;
+        for(int i=0; i<word.length(); i++) {
+            if(!currNode.containsKey(word.charAt(i))) return false;
+            else {
+              currNode = currNode.get(word.charAt(i));
+              flag = flag & currNode.isEnd;
+            }
+        }
+
+        return flag;
+    }
+}
+class Solution {
+
+  public static String completeString(int n, String[] a) {
+    // Write your code here.
+    Trie alphabet = new Trie();
+    for(int i=0; i<n; i++) {
+        alphabet.insert(a[i]);
+    }
+    String longestWord = "";
+    for(int i=0; i<n; i++) {
+      if(alphabet.checkWhetherPrefixExists(a[i])) {
+        if(a[i].length() > longestWord.length()) {
+          longestWord = a[i];
+        }
+
+        else if(a[i].length() == longestWord.length() && a[i].compareTo(longestWord) < 0) {
+          longestWord = a[i];
+        }
+      }
+    }
+
+    if(longestWord.length() == 0) return "None";
+
+    return longestWord;
+
+  }
+}
