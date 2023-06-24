@@ -1,0 +1,43 @@
+/*Complete the function below
+Node is as follows:
+class TrieNode 
+{
+    char content; 
+    boolean isEnd; 
+    int count;  
+    LinkedList<TrieNode> childList; 
+    public TrieNode(char c)
+    {
+        childList = new LinkedList<TrieNode>();
+        isEnd = false;
+        content = c;
+        count = 0;
+    }  
+    public TrieNode subNode(char c)
+    {
+        if (childList != null)
+            for (TrieNode eachChild : childList)
+                if (eachChild.content == c)
+                    return eachChild;
+        return null;
+    }
+}*/
+class Solution
+{
+    public void deleteKey(TrieNode root,char[] key)
+    {
+     //add code here.
+        TrieNode currNode = root;
+        for(int i=0; i<key.length; i++) {
+            if(currNode.subNode(key[i]) != null) {
+                currNode = currNode.subNode(key[i]);
+                currNode.count -= 1;
+            }
+            else {
+                return;
+            }
+        }
+        
+        currNode.isEnd = false;
+     }
+}
