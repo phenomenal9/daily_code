@@ -1,0 +1,31 @@
+class Solution {
+    String out = "";
+    public String countAndSay(int n) {
+        if(n == 1) return "1";
+        
+        String temp = countAndSay(n-1);
+        out = convertToText(temp);
+        return out;
+    }
+    public String convertToText(String temp) {
+        int prev = temp.charAt(0) - '0';
+        int count = 0;
+        String r = "";
+        for(int i=0; i<temp.length(); i++) {
+            int curr = temp.charAt(i) - '0';
+            if(curr == prev) {
+                count++;
+            }
+            else {
+                r += Integer.toString(count) + Integer.toString(prev);
+                prev = curr;
+                count = 1;
+            }
+            if( i == temp.length() - 1) {
+                r += Integer.toString(count) + Integer.toString(curr);
+            }
+        }
+        return r;
+    }
+    
+}
