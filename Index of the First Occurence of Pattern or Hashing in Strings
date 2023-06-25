@@ -1,0 +1,17 @@
+// User function Template for Java
+
+class Solution {
+    public int findMatching(String text, String pat) {
+        // Code here
+        int patLength = pat.length();
+        if(patLength > text.length()) return -1;
+        
+        for(int i = 0; i <= text.length() - patLength; i++) {
+            String temp = text.substring(i, i+patLength);
+            
+            if(temp.equals(pat)) return i;
+        }
+        
+        return -1;
+    }
+}
