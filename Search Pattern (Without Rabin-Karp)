@@ -1,0 +1,25 @@
+//User function Template for Java
+
+class Solution
+{
+    
+    ArrayList<Integer> search(String pat, String S)
+    {
+        // your code here
+        int patLength = pat.length();
+        
+        ArrayList<Integer> res = new ArrayList<>();
+        for(int i = 0; i <= S.length() - patLength; i++) {
+            String temp = S.substring(i, i+patLength);
+
+            if(temp.equals(pat)) res.add(i + 1);
+        }
+
+        if(res.size() == 0) {
+            res.add(-1);
+            return res;
+        }
+        
+        return res;
+    }
+}
