@@ -1,0 +1,44 @@
+//User function Template for Java
+class Pair {
+    int elem;
+    int idx;
+    
+    Pair(int elem, int idx) {
+        this.elem = elem;
+        this.idx = idx;
+    }
+}
+
+class Solution {
+    static int[] replaceWithRank(int arr[], int N) {
+     // code here
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b) -> (a.elem - b.elem));
+        
+        for(int i = 0; i < arr.length; i++) {
+            pq.offer(new Pair(arr[i], i));
+        }
+        
+        int i = 1;
+        int prev = pq.peek().elem;
+        int idx = pq.poll().idx;
+        
+        arr[idx] = i;
+        
+        while(!pq.isEmpty()) {
+            int curr = pq.peek().elem;
+            idx = pq.peek().idx;
+            pq.poll();
+            if(curr == prev) {
+                arr[idx] = i;
+            }
+            
+            else {
+                prev = curr;
+                i++;
+                arr[idx] = i;
+            }
+        }
+        
+        return arr;
+    }
+}
