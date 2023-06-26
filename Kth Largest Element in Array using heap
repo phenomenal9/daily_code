@@ -1,0 +1,41 @@
+class Solution {
+    public int extractMax(int[] nums, int heap_size) {
+        int maxVal = nums[0];
+        heap_size--;
+        nums[0] = Integer.MIN_VALUE;
+        maxHeapify(nums, 0);
+        
+        return maxVal;
+    }
+    public int findKthLargest(int[] nums, int k) {
+        for(int i = (nums.length)/2 - 1; i >= 0; i--) {
+            maxHeapify(nums, i);
+        }
+        
+        int heap_size = nums.length;
+        
+        while(k > 1) {
+            extractMax(nums, heap_size);
+            k--;
+        }
+        
+        return extractMax(nums, heap_size);
+        
+    }
+    
+    public void maxHeapify(int arr[], int i) {
+      int largest = i;
+      int left  = 2 * i + 1;
+      int right = 2 * i + 2;
+      
+      if(left < arr.length && arr[left] > arr[largest]) largest = left;
+      if(right < arr.length && arr[right] > arr[largest]) largest = right;
+      
+      if(i != largest) {
+          int temp = arr[i];
+          arr[i] = arr[largest];
+          arr[largest] = temp;
+          maxHeapify(arr, largest);
+      }
+  }
+}
