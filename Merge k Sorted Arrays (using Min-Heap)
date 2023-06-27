@@ -1,0 +1,65 @@
+//User function Template for Java
+class minHeap {
+    int[] h;
+    int heap_size = 0;
+    
+    minHeap(int size) {
+        this.h = new int[size];
+    }
+}
+
+class Solution
+{
+    //Function to merge k sorted arrays.
+    public static ArrayList<Integer> mergeKArrays(int[][] arr,int K) 
+    {
+        // Write your code here.
+        minHeap heap = new minHeap(K * K);
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        for(int i = 0; i < K; i++) {
+            for(int j = 0; j < K; j++) {
+                heap.h[heap.heap_size] = arr[i][j];
+                heap.heap_size++;
+            }
+        }
+        for(int i = ((heap.heap_size)/2) - 1; i >= 0; i--) {
+            minHeapify(heap.h, i);
+        }
+        
+        int i = 0;
+        while(i < K * K) {
+            int minVal = extractMin(heap.h, heap.heap_size);
+            //System.out.println(minVal);
+            result.add(minVal);
+            i++;
+        }
+        
+        return result;
+    }
+    
+    public static int extractMin(int[] h, int heap_size) {
+        int minVal = h[0];
+        heap_size--;
+        //h[0] = h[heap_size];
+        h[0] = Integer.MAX_VALUE;
+        minHeapify(h, 0);
+        
+        return minVal;
+    }
+    
+    public static void minHeapify(int arr[], int i) {
+      int smallest = i;
+      int left  = 2 * i + 1;
+      int right = 2 * i + 2;
+      
+      if(left < arr.length && arr[left] < arr[smallest]) smallest = left;
+      if(right < arr.length && arr[right] < arr[smallest]) smallest = right;
+      
+      if(i != smallest) {
+          int temp = arr[i];
+          arr[i] = arr[smallest];
+          arr[smallest] = temp;
+          minHeapify(arr, smallest);
+      }
+    }
+}
