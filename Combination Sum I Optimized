@@ -1,0 +1,24 @@
+class Solution {
+    List<List<Integer>> result = new ArrayList<>();
+    public void solve(int[] candidates, int idx, List<Integer> op, int target) {
+        if(target == 0) {
+            result.add(new ArrayList<>(op));
+            return;
+        }
+        else if(idx < 0) return;
+        
+        if(candidates[idx] <= target) {
+            
+            op.add(candidates[idx]);
+            solve(candidates, idx, op, target - candidates[idx]);
+            op.remove(op.size() - 1);
+        }
+        solve(candidates, idx - 1, op, target);
+        
+    }
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        solve(candidates, candidates.length - 1, new ArrayList<Integer>(), target);
+        
+        return result;
+    }
+}
