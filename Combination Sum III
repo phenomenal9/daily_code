@@ -1,0 +1,32 @@
+class Solution {
+    List<List<Integer>> result = new ArrayList<>();
+    public void solve(int[] candidates, int idx, List<Integer> op, int target, int k) {
+        if(target == 0 && op.size() == k) {
+            result.add(new ArrayList<>(op));
+            return;
+        }
+        else if(idx < 0 || op.size() > k || target == 0) return;
+        
+        if(candidates[idx] <= target) {
+            
+            op.add(candidates[idx]);
+            solve(candidates, idx - 1, op, target - candidates[idx], k);
+            op.remove(op.size() - 1);
+        }
+        solve(candidates, idx - 1, op, target, k);
+        
+    }
+    public List<List<Integer>> combinationSum(int[] candidates, int target, int k) {
+        solve(candidates, candidates.length - 1, new ArrayList<Integer>(), target, k);
+        
+        return result;
+    }
+    
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        int[] candidates = new int[9];
+        for(int i = 1; i < 10; i++) {
+            candidates[i - 1] = i;
+        }
+        return combinationSum(candidates, n, k);
+    }
+}
