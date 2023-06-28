@@ -1,0 +1,23 @@
+class Solution {
+    List<List<Integer>> result = new ArrayList<>();
+    public void solve(int idx, List<Integer> op, int targetSum, int k, int sum) {
+        if(op.size() == k && sum == targetSum) {
+            result.add(new ArrayList<>(op));
+            return;
+        }
+        
+        for(int i = idx; i <= 9; i++) {
+            op.add(i);
+            solve(i+1, op, targetSum, k, sum + i);
+            op.remove(op.size() - 1);
+        }
+        
+    }
+    
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        if(n <= k || n > 55) return result;
+        solve(1, new ArrayList<Integer>(), n, k, 0);
+        
+        return result;
+    }
+}
