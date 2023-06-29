@@ -1,0 +1,20 @@
+class Solution {
+    public void solve(int[] nums, int idx, List<Integer> op, List<List<Integer>> result) {
+        result.add(new ArrayList<>(op));
+        
+        for(int i = idx; i < nums.length; i++) {
+            if(i > idx && nums[i] == nums[i - 1]) continue;
+            
+            op.add(nums[i]);
+            solve(nums, i + 1, op, result);
+            op.remove(op.size() - 1);
+        }
+    }
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> result = new ArrayList<>();
+        
+        solve(nums, 0, new ArrayList<>(), result);
+        return result;
+    }
+}
