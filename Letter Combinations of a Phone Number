@@ -1,0 +1,40 @@
+class Solution {
+    List<String> result = new ArrayList<>();
+    public void combinationsGenerate(String digits, int idx, Map<Integer, List<Character>> mp, String op) {
+        if(op.length() == digits.length()) {
+            result.add(op);
+            return;
+        }
+        
+        List<Character> ls = mp.get(digits.charAt(idx) - '0');
+        for(int i = 0; i < ls.size(); i++)
+        {
+            op += ls.get(i);
+            combinationsGenerate(digits, idx + 1, mp, op);
+            op = op.substring(0, op.length() - 1);
+        }
+    }
+    public List<String> letterCombinations(String digits) {
+        if(digits.length() == 0) return result;
+        Map<Integer, List<Character>> mp = new HashMap<>();
+        char c = 'a';
+        for(int i = 2; i <= 9; i++) {
+            int options = 3;
+            if(i == 7 || i == 9) {
+                options = 4;
+            }
+            
+            List<Character> temp = new ArrayList<>();
+            while(c <= 'z' && options > 0) {
+                temp.add(c);
+                c++;
+                options--;
+            }
+            mp.put(i, temp);
+        }
+        String op = "";
+        combinationsGenerate(digits, 0, mp, op);
+        
+        return result;
+    }
+}
