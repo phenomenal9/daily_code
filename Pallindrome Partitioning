@@ -1,0 +1,32 @@
+class Solution {
+    public void generatePartitions(String s, int idx, List<List<String>> result, List<String> op) {
+        if(idx == s.length()) {
+            result.add(new ArrayList<>(op));
+            return;
+        }
+        
+        for(int i = idx; i < s.length(); i++) {
+            if(isPallindrome(s, idx, i)) {
+                op.add(s.substring(idx, i+1));
+                generatePartitions(s, i + 1, result, op);
+                op.remove(op.size() - 1);
+            }
+        }
+    }
+    
+    public List<List<String>> partition(String s) {
+        List<List<String>> result = new ArrayList<>();
+        generatePartitions(s, 0, result, new ArrayList<String>());
+        
+        return result;
+    }
+    
+    public boolean isPallindrome(String s, int start, int end) {
+        while(start < end) {
+            if(s.charAt(start++) != s.charAt(end--))
+                return false;
+        }
+        
+        return true;
+    }
+}
