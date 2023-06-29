@@ -1,0 +1,45 @@
+// User function Template for Java
+
+// m is the given matrix and n is the order of matrix
+class Solution {
+    public static void solve(int row, int col, int[][] m, StringBuilder op, ArrayList<String> result, int n) {
+        if(row == n-1  && col == n-1) {
+            result.add(op.toString());
+            return;
+        }
+        
+        if(row >= 0 && row < n && col >= 0 && col < n && m[row][col] == 1) {
+            m[row][col] = -1;
+            
+            op.append('U');
+            solve(row - 1, col, m, op, result, n);
+            op.deleteCharAt(op.length() - 1);
+            
+            op.append('D');
+            solve(row + 1, col, m, op, result, n);
+            op.deleteCharAt(op.length() - 1);
+            
+            op.append('L');
+            solve(row, col - 1, m, op, result, n);
+            op.deleteCharAt(op.length() - 1);
+            
+            op.append('R');
+            solve(row, col + 1, m, op, result, n);
+            op.deleteCharAt(op.length() - 1);
+            
+            m[row][col] = 1;
+        }
+        
+        else
+            return;
+    }
+    public static ArrayList<String> findPath(int[][] m, int n) {
+        // Your code here
+        ArrayList<String> result = new ArrayList<>();
+        if(m[n-1][n-1] == 0) return result;
+        StringBuilder op = new StringBuilder();
+        
+        solve(0, 0, m, op, result, n);
+        return result;
+    }
+}
