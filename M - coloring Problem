@@ -1,0 +1,41 @@
+class solve {
+    // Function to determine if graph can be coloured with at most M colours
+    // such
+    // that no two adjacent vertices of graph are coloured with same colour.
+    public boolean isPossible(ArrayList<ArrayList<Integer>> adj, int node, int col, int[] color) {
+        for(int adjNode : adj.get(node)) {
+            if(color[adjNode] == col) return false;
+        }
+        
+        return true;
+    }
+    public boolean solve(ArrayList<ArrayList<Integer>> adj, int node, int n, int m, int[] color) {
+        if(node == n) return true;
+        
+        for(int i = 1; i <= m; i++) {
+            if(isPossible(adj, node, i, color)) {
+                color[node] = i;
+                if(solve(adj, node + 1, n, m, color)) return true;
+                color[node] = 0;
+            }
+        }
+        
+        return false;
+    }
+    public boolean graphColoring(boolean graph[][], int m, int n) {
+        // Your code here
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        for(int i = 0; i < n; i++) adj.add(new ArrayList<>());
+        
+        for(int i = 0; i < graph.length; i++) {
+            for(int j = 0; j < graph.length; j++) {
+                if(i != j && graph[i][j]) {
+                    adj.get(i).add(j);
+                }
+            }
+        }
+        
+        int[] color = new int[n];
+        return solve(adj, 0, n, m, color);
+    }
+}
