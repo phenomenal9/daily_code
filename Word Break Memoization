@@ -1,0 +1,28 @@
+class Solution {
+    public int solve(String s, int idx, Set<String> wordDict, int[] t) {
+        if(idx == s.length()) return 1;
+        
+        if(t[idx] != -1) {
+           return t[idx];
+        }
+        
+        for(int i = idx; i < s.length(); i++) {
+            if(wordDict.contains(s.substring(idx, i+1))) {
+                int ans = solve(s, i+1, wordDict, t);
+                t[idx] = ans;
+                if(ans == 1) return 1;
+            }
+        }
+        return t[idx] = 0 ;
+    }
+    public boolean wordBreak(String s, List<String> wordDict) {
+        int[] t = new int[s.length() + 1];
+        Arrays.fill(t, -1);
+        Set<String> hs = new HashSet<>();
+        for(String word : wordDict) {
+            hs.add(word);
+        }
+        
+        return solve(s, 0, hs, t) == 1;
+    }
+}
