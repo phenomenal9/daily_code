@@ -1,0 +1,31 @@
+public class Solution {
+    public static int traffic(int n, int m, int []vehicle) {
+        // Write your code here.
+        int maxOnes = 0;
+
+        int i = 0;
+        int j = 0;
+        int countOnes = 0;
+        int countZeros = 0;
+
+        while(j < n) {
+            if(vehicle[j] == 0) {
+                countZeros++;
+                if(countZeros > m) {
+                    while(countZeros > m) {
+                        if(vehicle[i] == 0) {
+                            countZeros--;
+                        }
+                        i++;
+                        countOnes--;
+                    }
+                }
+            }
+            countOnes++;
+            j++;
+
+            maxOnes = Math.max(countOnes, maxOnes);
+        }
+        return maxOnes;
+    }
+}
