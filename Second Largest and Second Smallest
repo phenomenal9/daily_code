@@ -1,0 +1,36 @@
+public class Solution {
+    public static int[] getSecondOrderElements(int n, int []a) {
+        // Write your code here.
+        int largest = a[0];
+        int secondlargest = -1;
+        int smallest = a[0];
+        int secondSmallest = Integer.MAX_VALUE;
+        for(int i = 1; i < n; i++){
+            if(largest < a[i]) {
+                secondlargest = largest;
+                largest = a[i];
+            }
+
+            else if(secondlargest < a[i]) {
+                secondlargest = a[i];
+            }
+        }
+
+        for(int i = 1; i < n; i++) {
+            if(smallest > a[i]) {
+                secondSmallest = smallest;
+                smallest = a[i]; 
+            }
+
+            else if(secondSmallest > a[i]) {
+                secondSmallest = a[i];
+            }
+        }
+
+        int[] result = new int[2];
+        result[0] = secondlargest;
+        result[1] = secondSmallest;
+
+        return result;
+    }
+}
