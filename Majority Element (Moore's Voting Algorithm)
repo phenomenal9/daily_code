@@ -1,0 +1,25 @@
+class Solution {
+    public int majorityElement(int[] nums) {
+        int count = 0;
+        int elem = 0;
+        
+        for(int i = 0; i < nums.length; i++) {
+            if(count == 0) {
+                elem = nums[i];
+                count++;
+            }
+            else if(elem == nums[i]) count++;
+            else count--;
+        }
+        
+        int count1 = 0;
+        // In order to consider the case, that it is indeed the majority element
+        for(int i = 0; i < nums.length; i++) {
+            if(elem == nums[i])
+                count1++;
+        }
+        
+        if(count1 > (int)(nums.length/2)) return elem;
+        return -1;
+    }
+}
