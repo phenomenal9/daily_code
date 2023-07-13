@@ -1,0 +1,24 @@
+public class Solution {
+    public static int[] findMissingRepeatingNumbers(int []a) {
+        // Write your code here
+        int n = a.length;
+        long sn = (n * (n + 1)) / 2;
+        long sn2 = (n * (n + 1) * (2 * n + 1)) / 6;
+
+        long s = 0;
+        long s2 = 0;
+
+        for(int num : a) {
+            s += (long)num;
+            s2 += (long)num * (long)num;
+        }
+
+        long val1 = s - sn;
+        long val2 = (s2 - sn2) / val1;
+
+        int[] result = new int[2];
+        result[0] = (int)((val1 + val2) / 2);
+        result[1] = (int)((val2 - val1) / 2); 
+
+        return result;
+  
