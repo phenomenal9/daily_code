@@ -1,0 +1,32 @@
+import java.util.HashMap;
+
+public class Solution {
+    public static int countSubstringLessThanEqualTok(String str, int k) {
+        if(k == 0) return 0;
+        HashMap<Character, Integer> mp = new HashMap<>();
+        
+        int j = 0;
+        int i = 0;
+
+        int countStrings = 0;
+        while(j < str.length()) {
+            mp.put(str.charAt(j), mp.getOrDefault(str.charAt(j), 0) + 1);
+
+            while(mp.size() > k) {
+                mp.put(str.charAt(i), mp.getOrDefault(str.charAt(i), 0) - 1);
+                if(mp.get(str.charAt(i)) == 0) mp.remove(str.charAt(i));
+                i++;
+            }
+
+            countStrings += (j - i + 1);
+            j++;
+        }
+        return countStrings;
+    }
+    public static int countSubStrings(String str, int k) {
+        // Write your code here.
+        
+        return countSubstringLessThanEqualTok(str, k) - countSubstringLessThanEqualTok(str, k - 1);
+        
+    }
+}
