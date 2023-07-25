@@ -1,0 +1,28 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+	public static int getLongestSubarray(int []a, int k) {
+		// Write your code here.
+        HashMap<Integer, Integer> prefixSum = new HashMap<>();
+		int maxLength = 0;
+        int sum = 0;
+        for(int i = 0; i < a.length; i++) {
+            sum += a[i];
+
+            if(sum == k) {
+                maxLength = Math.max(maxLength, i + 1);
+            }
+
+            int remSum = sum - k;
+            if(prefixSum.containsKey(remSum)) {
+                maxLength = Math.max(maxLength, i - prefixSum.get(remSum));
+            }
+
+            if(!prefixSum.containsKey(sum)) {
+                prefixSum.put(sum, i);
+            }
+        }
+
+        return maxLength;
+	}
+}
