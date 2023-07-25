@@ -1,0 +1,25 @@
+public class Solution {
+    public static int subarrayWithMaxProduct(int []arr){
+        // Write your code here.
+        int prefix = 1;
+        int suffix = 1;
+        int result = Integer.MIN_VALUE;
+        for(int i = 0; i < arr.length; i++) {
+            prefix *= arr[i];
+
+            if(arr[i] == 0) prefix = 1;
+        
+            result = Math.max(result, prefix);
+        }
+
+        for(int i = arr.length - 1; i >= 0; i--) {
+            suffix *= arr[i];
+
+            if(arr[i] == 0) suffix = 1;
+
+            result = Math.max(result, suffix);
+        }
+
+        return result;
+    }
+}
