@@ -1,0 +1,41 @@
+class Solution {
+    public int beautySum(String s) {
+        
+        int ans = 0;
+        for(int size = 3; size <= s.length(); size++) {
+            int i = 0;
+            int j = size;
+            int[] freq = new int[26];
+            
+            for(int k = 0; k < j; k++) {
+                freq[s.charAt(k) - 'a']++;
+            }
+            ans += countDifference(freq);
+            
+            while(j < s.length()) {
+                freq[s.charAt(j) - 'a']++;
+                freq[s.charAt(i) - 'a']--;
+                ans += countDifference(freq);
+                j++;
+                i++;
+            }
+            
+        }
+        
+        return ans;
+    }
+    
+    public int countDifference(int[] freq) {
+        int minFreq = Integer.MAX_VALUE;
+        int maxFreq = Integer.MIN_VALUE;
+        
+        for(int f : freq) {
+            if(f != 0) {
+                minFreq = Math.min(minFreq, f);
+                maxFreq = Math.max(maxFreq, f);
+            }
+        }
+        
+        return maxFreq - minFreq;
+    }
+}
