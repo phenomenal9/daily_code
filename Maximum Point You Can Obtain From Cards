@@ -1,0 +1,32 @@
+class Solution {
+    public int maxScore(int[] cardPoints, int k) {
+        int result = 0;
+        
+        if(cardPoints.length == k) {
+            for(int points : cardPoints) result += points;
+            return result;
+        }
+        
+        int i = 0;
+        int j = cardPoints.length - k; // Always keep j like this; because when we slide the value at j needs to be\
+                                       // to be removed first and the value at i will be added first.
+        int ans = 0;
+        
+        for(int r = j; r < cardPoints.length; r++) {
+            ans += cardPoints[r];
+        }
+        
+        result = Math.max(result, ans);
+        while(j < cardPoints.length) {
+            
+            ans -= cardPoints[j];
+            ans += cardPoints[i];
+            
+            result = Math.max(result, ans);
+            i++;
+            j++;
+        }
+        
+        return result;
+    }
+}
