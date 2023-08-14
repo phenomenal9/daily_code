@@ -1,0 +1,43 @@
+
+// User function Template for Java
+
+class Solution {
+    static String minWindow(String S, String T) {
+        // code here
+        int start = 0;
+        int end = 0;
+        int k = 0;
+        int minStart = 0;
+        if(S.length() < T.length()) return "";
+
+        int minLength = Integer.MAX_VALUE;
+        String result = "";
+        
+        for(end = 0; end < S.length(); end++) {
+            if(S.charAt(end) == T.charAt(k)) {
+                k++;
+            }
+
+            if(k == T.length()) {
+                start = end;
+                k--;
+                for(start = end; start >= 0; start--) {
+                    if(k > 0 && S.charAt(start) == T.charAt(k)) {
+                        k--;
+                    }
+                    else if(k == 0 && S.charAt(start) == T.charAt(k)) {
+                        if(minLength > end - start + 1) {
+                            minLength = end - start + 1;
+                            minStart = start;
+                        }
+
+                        break;
+                    }
+                }
+                end--;
+            }
+        }
+
+        return minLength == Integer.MAX_VALUE ? "" : S.substring(minStart, minStart + minLength);
+    }
+}
