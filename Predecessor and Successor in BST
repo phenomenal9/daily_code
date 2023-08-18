@@ -1,0 +1,65 @@
+/*********************************************************
+
+ Following is the TreeNode structure:
+
+ class TreeNode {
+     int data;
+     TreeNode left;
+     TreeNode right;
+     TreeNode() {
+         this.data = 0;
+         this.left = null;
+         this.right = null;
+     }
+     TreeNode(int data) {
+         this.data = data;
+         this.left = null;
+         this.right = null;
+     }
+     TreeNode(int data, TreeNode left, TreeNode right) {
+         this.data = data;
+         this.left = left;
+         this.right = right;
+     }
+ };
+ ********************************************************/
+
+import java.util.*;
+public class Solution {
+    public static List<Integer> predecessorSuccessor(TreeNode root, int key) {
+        // Write your code here.
+        TreeNode successor = null;
+        TreeNode curr = root;
+        while(curr != null) {
+            if(curr.data <= key) {
+                curr = curr.right;
+            }
+            else {
+                successor = curr;
+                curr = curr.left;
+            }
+        }
+
+        curr = root;
+        TreeNode predecessor = null;
+
+        while(curr != null) {
+            if(curr.data < key) {
+                predecessor = curr;
+                curr = curr.right;
+            }
+            else {
+                curr = curr.left;
+            }
+        }
+
+        List<Integer> ls = new ArrayList<>();
+        if(predecessor == null) ls.add(-1);
+        else ls.add(predecessor.data);
+
+        if(successor == null) ls.add(-1);
+        else ls.add(successor.data);
+
+        return ls;
+    }
+}
