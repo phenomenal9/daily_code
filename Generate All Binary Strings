@@ -1,0 +1,31 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+    public static void generateAllPossibleStrings(List<String> result, int idx, String op, int length) {
+        if(idx == 0) {
+            result.add(op);
+            return;
+        }
+
+        if(idx == length) {
+            generateAllPossibleStrings(result, idx - 1, op + "0", length);
+            generateAllPossibleStrings(result, idx - 1, op + "1", length);
+        }
+        else {
+            if(op.charAt(length - idx - 1) == '0') {
+                generateAllPossibleStrings(result, idx - 1, op + "0" , length);
+                generateAllPossibleStrings(result, idx - 1, op + "1" , length);
+            }
+            else {
+                generateAllPossibleStrings(result, idx - 1, op + "0" , length);
+            }
+        }
+    }
+    public static List< String > generateString(int N) {
+        // Write your code here.
+        List<String> result = new ArrayList<>();
+        generateAllPossibleStrings(result, N, "", N);
+        return result;
+    }
+}
