@@ -1,0 +1,92 @@
+/*************************************************************
+
+	Following is the Binary Tree node structure for reference:
+ 
+  	class BinaryTreeNode<T> {
+  
+  		T data; 
+		BinaryTreeNode<T> left; 
+		BinaryTreeNode<T> right;
+  
+  		BinaryTreeNode(T data) { 
+			this.data = data; 
+			left = null; right = null; 
+		} 
+	}
+
+*************************************************************/
+
+import java.util.*;
+
+public class Solution {	
+	public static ArrayList<BinaryTreeNode<Integer>> findTheNodes(HashMap<BinaryTreeNode<Integer>, BinaryTreeNode<Integer>> parentMap, BinaryTreeNode<Integer> target, int K) {
+		Queue<BinaryTreeNode<Integer>> q = new java.util.LinkedList<>();
+		HashMap<BinaryTreeNode<Integer>, Integer> vis = new HashMap<>();
+		ArrayList<BinaryTreeNode<Integer>> result = new ArrayList<>();
+
+		q.offer(target);
+		vis.put(target, 1);
+
+		int distance = 0;
+		while(!q.isEmpty()) {
+			int currSize = q.size();
+			distance++;
+
+			if(distance > K) {
+				while(!q.isEmpty()) 
+					result.add(q.poll());
+				break;
+			}
+
+			for(int i = 0; i < currSize; i++) {
+				BinaryTreeNode<Integer> currNode = q.poll();
+
+				if(currNode.left != null && vis.get(currNode.left) == null) {
+					q.offer(currNode.left);
+					vis.put(currNode.left, 1);
+				}
+
+				if(currNode.right != null && vis.get(currNode.right) == null) {
+					q.offer(currNode.right);
+					vis.put(currNode.right, 1);
+				}
+
+				if(parentMap.get(currNode) != null && vis.get(parentMap.get(currNode)) == null) {
+					q.offer(parentMap.get(currNode));
+					vis.put(parentMap.get(currNode), 1);
+				}
+			}
+		}
+		return result;
+	}
+	public static void bfsmapToParents(BinaryTreeNode<Integer> root, HashMap<BinaryTreeNode<Integer>, BinaryTreeNode<Integer>> parentMap) {
+		Queue<BinaryTreeNode<Integer>> q = new java.util.LinkedList<>();
+	
+		q.offer(root);
+
+		while(!q.isEmpty()) {
+			BinaryTreeNode<Integer> currNode = q.poll();
+			if(currNode.left != null) 
+			{
+				parentMap.put(currNode.left, currNode);
+				q.offer(currNode.left);
+			}
+
+			if(currNode.right != null) {
+				parentMap.put(currNode.right, currNode);
+				q.offer(currNode.right);
+			}
+		}
+		
+	}
+	public static ArrayList<BinaryTreeNode<Integer>> printNodesAtDistanceK(BinaryTreeNode<Integer> root,
+   		BinaryTreeNode<Integer> target, int K) {
+		// Write your code here.
+		
+		HashMap<BinaryTreeNode<Integer>, BinaryTreeNode<Integer>> parentMap = new HashMap<>();
+		bfsmapToParents(root, parentMap);
+
+		return findTheNodes(parentMap, target, K);
+
+	}
+}
