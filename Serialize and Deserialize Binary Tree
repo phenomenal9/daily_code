@@ -1,0 +1,70 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Codec {
+
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        if(root == null) return "";
+        Queue<TreeNode> q = new java.util.LinkedList<>();
+        q.offer(root);
+        String data = root.val + " ";
+        
+        while(!q.isEmpty()) {
+            TreeNode currNode = q.poll();
+            if(currNode.left != null) {
+                q.offer(currNode.left);
+                data += currNode.left.val + " ";
+            }
+            else {
+                data += "n ";
+            }   
+            
+            if(currNode.right != null) {
+                q.offer(currNode.right);
+                data += currNode.right.val + " ";
+            }
+            else {
+                data += "n ";
+            } 
+        }
+        
+        return data;
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        if(data.equals("")) return null;
+        String[] nodes = data.split(" ");
+        Queue<TreeNode> q = new java.util.LinkedList<>();
+        
+        TreeNode root = new TreeNode(Integer.parseInt(nodes[0]));
+        q.offer(root);
+        
+        for(int i = 1; i < nodes.length; i++) {
+            TreeNode parent = q.poll();
+            
+            if(!nodes[i].equals("n")) {
+                parent.left = new TreeNode(Integer.parseInt(nodes[i]));
+                q.offer(parent.left);
+            }
+            
+            if(!nodes[++i].equals("n")) {
+                parent.right = new TreeNode(Integer.parseInt(nodes[i]));
+                q.offer(parent.right);
+            }
+        }
+        return root;
+    }
+}
+
+// Your Codec object will be instantiated and called as such:
+// Codec ser = new Codec();
+// Codec deser = new Codec();
+// TreeNode ans = deser.deserialize(ser.serialize(root));
