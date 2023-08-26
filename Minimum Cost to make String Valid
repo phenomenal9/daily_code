@@ -1,0 +1,44 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int findMinimumCost(String str) {
+		// Write your code here
+    if(str.length() % 2 == 1) return -1;
+      int open = 0;
+      int close = 0;
+
+      int i = 0;
+      int j = 0;
+      int operations = 0;
+
+      // Once the closing brackets goes above the open bracket
+      // change the closing brackets to open bracket till
+      // open bracket != close bracket
+
+      while(j < str.length()) {
+        if(str.charAt(j) == '{') open++;
+        else close++;
+
+        while(close > open) {
+          if(str.charAt(i) == '}') {
+            operations++;
+            close--;
+            open++;
+          }
+          i++;
+        }
+        j++;
+      }
+      
+      // Now finally change the excess open brackets
+      // into closing ones
+      
+      while(open > close) {
+        operations++;
+        open--;
+        close++;
+      }
+
+      return operations;
+    }
+}
