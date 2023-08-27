@@ -1,0 +1,56 @@
+public final class Solution {
+    public static int findTheCount(int matrix[][], int num, int m, int n) {
+        int count = 0;
+
+        for(int i = 0; i < m; i++) {
+            int left = 0;
+            int right = n - 1;
+    
+            int idx = n;
+
+            while(left <= right) {
+                int mid = left + (right - left) / 2;
+                // We want the first index where matrix[i] > num;
+                // Then to the left of that index, we can surely say
+                // all the numbers are less than or equal to num
+
+                if(matrix[i][mid] > num) {
+                    idx = mid;
+                    right = mid - 1;
+                }
+                else {
+
+                    left = mid + 1;
+                }
+            }
+
+            count += idx;
+        }
+        return count;
+    }
+    public static int findMedian(int matrix[][], int m, int n) {
+        // Write your code here
+        int leftNum = 1;
+        int rightNum = 0;
+
+        for(int i = 0; i < m; i++) {
+            rightNum = Math.max(rightNum, matrix[i][n - 1]);
+        }
+        int ans = -1;
+        while(leftNum <= rightNum) {
+            int mid = leftNum + (rightNum - leftNum) / 2;
+
+            int numsLEQmid = findTheCount(matrix, mid, m , n);
+
+            if(numsLEQmid <= (int)((m * n) / 2)) {
+                leftNum = mid + 1;
+            }
+            else {
+                ans = mid;
+                rightNum = mid - 1;
+            }
+        }
+
+        return ans;
+    }
+}
