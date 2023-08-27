@@ -1,0 +1,37 @@
+import java.util.PriorityQueue;
+
+public class Solution {
+    public static int countNumberOfGasStations(double dist, int[] arr) {
+        int count = 0;
+
+        for(int i = 0; i < arr.length - 1; i++) {
+            int numberOfStations = (int)((arr[i + 1] - arr[i]) / dist);
+
+            if(numberOfStations == (arr[i + 1] - arr[i]) / dist) {
+                numberOfStations--;
+            }
+
+            count += numberOfStations;
+        }
+        return count;
+        
+    }
+    public static double MinimiseMaxDistance(int []arr, int K){
+        // Write your code here.
+        double low = 0.0;
+        double high = 0.0;
+
+        for(int i = 0; i < arr.length - 1; i++) {
+            high = Math.max(high, (double)(arr[i + 1] - arr[i]));
+        }
+
+        while(high - low > Math.pow(10, -6)) {
+            double mid = low + (high - low)/2.0;
+            int countGasStations = countNumberOfGasStations(mid, arr);
+
+            if(countGasStations > K) low = mid;
+            else high = mid;
+        }
+        return high;
+    }
+}
