@@ -1,0 +1,81 @@
+class ListNode {
+    Pair val;
+    ListNode next;
+    ListNode prev;
+    ListNode(Pair data) {
+        this.val = data;
+        
+    }
+}
+
+class Pair {
+    int key;
+    int value;
+    
+    Pair(int key, int value) {
+        this.key = key;
+        this.value = value;
+    }
+}
+
+class LRUCache {
+    ListNode head = new ListNode(new Pair(0, 0));
+    ListNode tail = new ListNode(new Pair(0, 0));
+    
+    
+    
+    HashMap<Integer, ListNode> mp = new HashMap<>();
+    int capacity;
+    
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        head.next = tail;
+        tail.prev = head;
+    }
+    
+    public int get(int key) {
+        if(!mp.containsKey(key)) return -1;
+        
+        ListNode node = mp.get(key);
+        
+        remove(node);
+        insert(node);
+        
+        return node.val.value;
+        
+    }
+    
+    public void put(int key, int value) {
+        if(mp.containsKey(key)) {
+            remove(mp.get(key));
+        }
+        
+        if(mp.size()  == capacity) {
+            remove(tail.prev);
+        }
+    
+        insert(new ListNode(new Pair(key, value)));
+    }
+    
+    public void remove(ListNode node) {
+        mp.remove(node.val.key);
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+        
+    }
+    public void insert(ListNode node) {
+        mp.put(node.val.key, node);
+        node.next = head.next;
+        node.next.prev = node;
+        node.prev = head;
+        head.next = node;
+        
+    }
+}
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
