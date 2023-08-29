@@ -1,0 +1,35 @@
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        int maxArea = 0;
+        
+        Stack<Integer> stk = new Stack<>();
+        stk.push(-1);
+        for(int i=0; i<=heights.length; i++)
+        {
+            while((stk.size() > 1) && (i == heights.length || heights[stk.peek()] > heights[i]))
+            {
+                int currIdx = stk.pop();
+                int leftIdx = stk.peek() + 1;
+                int rightIdx = i-1;
+                int width = rightIdx - leftIdx + 1;
+                maxArea = Math.max(maxArea, heights[currIdx] * width);
+            }
+            
+            stk.push(i);       
+        }
+        return maxArea;
+    }
+    public int maximalRectangle(char[][] matrix) {
+        int[] histogram = new int[matrix[0].length];
+        int result = 0;
+        for(int i = 0; i < matrix.length; i++) {
+            for(int j = 0; j < matrix[0].length; j++) {
+                if(matrix[i][j] == '0') histogram[j] = 0;
+                else histogram[j]++;
+            }
+            result = Math.max(largestRectangleArea(histogram), result);
+        }
+        
+        return result;
+    }
+}
