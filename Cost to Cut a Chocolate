@@ -1,0 +1,41 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int solve(int[] cuts, int[][] t, int i, int j) {
+        if(i > j) return 0;
+        
+        if(t[i][j] != -1) return t[i][j];
+        
+        int ans = Integer.MAX_VALUE;
+        for(int k = i; k <= j; k++) {
+            int temp_ans = (cuts[j + 1] - cuts[i - 1]) + solve(cuts, t, i, k - 1) + solve(cuts, t, k + 1, j);
+            ans = Math.min(temp_ans, ans);
+        }
+        return t[i][j] = ans;
+        
+    }
+    public static int cost(int n, int c, int cuts[]) {
+
+        // Write your code here..
+        int[][] t = new int[n + 1][n + 1];
+        
+        Arrays.sort(cuts);
+        
+        for(int i = 0; i < n + 1; i++) {
+            for(int j = 0; j < n + 1; j++) {
+                t[i][j] = -1;
+            }
+        }
+        
+        int[] cuts_new = new int[cuts.length + 2];
+        
+        for(int i = 1; i <= cuts.length; i++) {
+            cuts_new[i] = cuts[i - 1];
+        }
+        
+        cuts_new[cuts_new.length - 1] = n;
+        
+        return solve(cuts_new, t, 1, cuts.length);
+    }
+
+}
