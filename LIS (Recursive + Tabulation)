@@ -1,0 +1,27 @@
+class Solution {
+    public int solve(int[] nums, int[][] t, int idx, int prev_idx) {
+        if(idx < 0) return 0;
+        
+        if(t[idx][prev_idx] != -1) return t[idx][prev_idx];
+        
+        if(prev_idx == nums.length || nums[idx] < nums[prev_idx]) {
+            return t[idx][prev_idx] = Math.max(1 + solve(nums, t, idx - 1, idx), solve(nums, t, idx - 1, prev_idx));
+        }
+        else {
+            return t[idx][prev_idx] = solve(nums, t, idx - 1, prev_idx);
+        }
+    }
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        
+        int[][] t = new int[n + 1][n + 1];
+        
+        for(int i = 0; i < n + 1; i++) {
+            for(int j = 0; j < n + 1; j++) {
+                t[i][j] = -1;
+            }
+        }
+
+        return solve(nums, t, n - 1, n);
+    }
+}
