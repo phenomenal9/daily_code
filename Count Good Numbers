@@ -1,0 +1,36 @@
+class Solution {
+    int mod = ((int)1e9) + 7;
+    public int countGoodNumbers(long n) {
+        //if(n == 1) return 5;
+        
+        if(n % 2 == 0) {
+            long pow = n / 2;
+            return (int)(((myPow(5, pow) % mod) * (myPow(4, pow) % mod)) % mod);
+        }
+        else {
+            long pow = n / 2;
+            return (int)(((myPow(5, pow + 1) % mod) * (myPow(4, pow) % mod)) % mod);    
+        }
+    }
+    
+    public long myPow(long x, long n) {
+        long ans = 1;
+        long nn = n;
+        
+        
+        while(nn > 0)
+        {
+            if(nn % 2 == 0)
+            {
+                x = (x * x) % mod;
+                nn /= 2;
+            }
+            else
+            {
+                ans = (ans * x) % mod;
+                nn--;
+            }
+        }
+        return ans % mod;
+    }
+}
